@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package ua_parser;
+package org.uaparser.ua_parser;
 
 import java.util.HashSet;
 import java.util.Random;
 
 import org.junit.Test;
 import org.junit.Before;
-import org.yaml.snakeyaml.Yaml;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

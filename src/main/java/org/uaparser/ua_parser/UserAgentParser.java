@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ua_parser;
+package org.uaparser.ua_parser;
 
 import java.util.ArrayList;
 import java.util.List;

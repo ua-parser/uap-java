@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ua_parser;
+package org.uaparser.ua_parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +25,13 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 /**
- * Java implementation of <a href="https://github.com/tobie/ua-parser">UA Parser</a>
+ * Java implementation of <a href="https://github.com/ua-parser/uap-java">UA Parser</a>
  *
  * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class Parser {
 
-  private static final String REGEX_YAML_PATH = "/ua_parser/regexes.yaml";
+  private static final String REGEX_YAML_PATH = "/org/uaparser/ua_parser/regexes.yaml";
   private UserAgentParser uaParser;
   private OSParser osParser;
   private DeviceParser deviceParser;

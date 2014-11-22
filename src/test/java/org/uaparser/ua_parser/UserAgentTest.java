@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package ua_parser;
+package org.uaparser.ua_parser;
+
+import org.uaparser.ua_parser.UserAgent;
 
 /**
  * @author Steve Jiang (@sjiang) <gh at iamsteve com>

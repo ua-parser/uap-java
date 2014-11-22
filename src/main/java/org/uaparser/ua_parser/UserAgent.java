@@ -14,41 +14,39 @@
  * limitations under the License.
  */
 
-package ua_parser;
+package org.uaparser.ua_parser;
 
 import java.util.Map;
 
 /**
- * Operating System parsed data class
+ * User Agent parsed data class
  *
  * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
-public class OS {
-  public final String family, major, minor, patch, patchMinor;
+public class UserAgent {
+  public final String family, major, minor, patch;
 
-  public OS(String family, String major, String minor, String patch, String patchMinor) {
+  public UserAgent(String family, String major, String minor, String patch) {
     this.family = family;
     this.major = major;
     this.minor = minor;
     this.patch = patch;
-    this.patchMinor = patchMinor;
   }
 
-  public static OS fromMap(Map<String, String> m) {
-    return new OS(m.get("family"), m.get("major"), m.get("minor"), m.get("patch"), m.get("patch_minor"));
+  public static UserAgent fromMap(Map<String, String> m) {
+    return new UserAgent(m.get("family"), m.get("major"), m.get("minor"), m.get("patch"));
   }
 
   @Override
   public boolean equals(Object other) {
     if (other == this) return true;
-    if (!(other instanceof OS)) return false;
+    if (!(other instanceof UserAgent)) return false;
 
-    OS o = (OS) other;
+    UserAgent o = (UserAgent) other;
     return ((this.family != null && this.family.equals(o.family)) || this.family == o.family) &&
            ((this.major != null && this.major.equals(o.major)) || this.major == o.major) &&
            ((this.minor != null && this.minor.equals(o.minor)) || this.minor == o.minor) &&
-           ((this.patch != null && this.patch.equals(o.patch)) || this.patch == o.patch) &&
-           ((this.patchMinor != null && this.patchMinor.equals(o.patchMinor)) || this.patchMinor == o.patchMinor);
+           ((this.patch != null && this.patch.equals(o.patch)) || this.patch == o.patch);
   }
 
   @Override
@@ -57,17 +55,16 @@ public class OS {
     h += major == null ? 0 : major.hashCode();
     h += minor == null ? 0 : minor.hashCode();
     h += patch == null ? 0 : patch.hashCode();
-    h += patchMinor == null ? 0 : patchMinor.hashCode();
     return h;
   }
 
   @Override
   public String toString() {
-    return String.format("{\"family\": %s, \"major\": %s, \"minor\": %s, \"patch\": %s, \"patch_minor\": %s}",
+    return String.format("{\"family\": %s, \"major\": %s, \"minor\": %s, \"patch\": %s}",
                          family == null ? Constants.EMPTY_STRING : '"' + family + '"',
                          major == null ? Constants.EMPTY_STRING : '"' + major + '"',
                          minor == null ? Constants.EMPTY_STRING : '"' + minor + '"',
-                         patch == null ? Constants.EMPTY_STRING : '"' + patch + '"',
-                         patchMinor == null ? Constants.EMPTY_STRING : '"' + patchMinor + '"');
+                         patch == null ? Constants.EMPTY_STRING : '"' + patch + '"');
   }
+
 }

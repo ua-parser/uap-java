@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ua_parser;
+package org.uaparser.ua_parser;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,6 +23,11 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.Before;
+import org.uaparser.ua_parser.Client;
+import org.uaparser.ua_parser.Device;
+import org.uaparser.ua_parser.OS;
+import org.uaparser.ua_parser.Parser;
+import org.uaparser.ua_parser.UserAgent;
 import org.yaml.snakeyaml.Yaml;
 
 import static org.hamcrest.Matchers.*;
@@ -34,7 +39,7 @@ import static org.junit.Assert.*;
  * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class ParserTest {
-  final String TEST_RESOURCE_PATH = "/ua_parser/";
+  final String TEST_RESOURCE_PATH = "/org/uaparser/ua_parser/";
   Yaml yaml = new Yaml();
   Parser parser;
 
@@ -58,7 +63,6 @@ public class ParserTest {
     testOSFromYaml("additional_os_tests.yaml");
   }
 
-
   @Test
   public void testParseDevice() {
     testDeviceFromYaml("test_device.yaml");
@@ -81,10 +85,10 @@ public class ParserTest {
 
     Client expected1 = new Client(new UserAgent("Firefox", "3", "5", "5"),
                                   new OS("Mac OS X", "10", "4", null, null),
-                                  new Device("Other"));
+                                  new Device("Other",null,null));
     Client expected2 = new Client(new UserAgent("Mobile Safari", "5", "1", null),
                                   new OS("iOS", "5", "1", "1", null),
-                                  new Device("iPhone"));
+                                  new Device("iPhone","Apple","iPhone"));
 
     assertThat(parser.parse(agentString1), is(expected1));
     assertThat(parser.parse(agentString2), is(expected2));
@@ -117,7 +121,8 @@ public class ParserTest {
   void testUserAgentFromYaml(String filename) {
     InputStream yamlStream = this.getClass().getResourceAsStream(TEST_RESOURCE_PATH + filename);
 
-    List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
     for(Map<String, String> testCase : testCases) {
       // Skip tests with js_ua as those overrides are not yet supported in java
       if (testCase.containsKey("js_ua")) continue;
@@ -130,6 +135,7 @@ public class ParserTest {
   void testOSFromYaml(String filename) {
     InputStream yamlStream = this.getClass().getResourceAsStream(TEST_RESOURCE_PATH + filename);
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
     for(Map<String, String> testCase : testCases) {
       // Skip tests with js_ua as those overrides are not yet supported in java
@@ -143,6 +149,7 @@ public class ParserTest {
   void testDeviceFromYaml(String filename) {
     InputStream yamlStream = this.getClass().getResourceAsStream(TEST_RESOURCE_PATH + filename);
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
     for(Map<String, String> testCase : testCases) {
 
