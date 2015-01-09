@@ -45,12 +45,12 @@ public class ParserTest {
 
   @Test
   public void testParseUserAgent() {
-    testUserAgentFromYaml("test_user_agent_parser.yaml");
+    testUserAgentFromYaml("test_ua.yaml");
   }
 
   @Test
   public void testParseOS() {
-    testOSFromYaml("test_user_agent_parser_os.yaml");
+    testOSFromYaml("test_os.yaml");
   }
 
   @Test
