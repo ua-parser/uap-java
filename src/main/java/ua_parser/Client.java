@@ -45,10 +45,10 @@ public class Client {
 
   @Override
   public int hashCode() {
-    int h = userAgent == null ? 0 : userAgent.hashCode();
-    h += os == null ? 0 : os.hashCode();
-    h += device == null ? 0 : device.hashCode();
-    return h;
+    int result = userAgent != null ? userAgent.hashCode() : 0;
+    result = 31 * result + (os != null ? os.hashCode() : 0);
+    result = 31 * result + (device != null ? device.hashCode() : 0);
+    return result;
   }
 
   @Override

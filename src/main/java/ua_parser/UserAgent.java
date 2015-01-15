@@ -51,11 +51,11 @@ public class UserAgent {
 
   @Override
   public int hashCode() {
-    int h = family == null ? 0 : family.hashCode();
-    h += major == null ? 0 : major.hashCode();
-    h += minor == null ? 0 : minor.hashCode();
-    h += patch == null ? 0 : patch.hashCode();
-    return h;
+    int result = family != null ? family.hashCode() : 0;
+    result = 31 * result + (major != null ? major.hashCode() : 0);
+    result = 31 * result + (minor != null ? minor.hashCode() : 0);
+    result = 31 * result + (patch != null ? patch.hashCode() : 0);
+    return result;
   }
 
   @Override

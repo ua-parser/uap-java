@@ -81,10 +81,10 @@ public class ParserTest {
 
     Client expected1 = new Client(new UserAgent("Firefox", "3", "5", "5"),
                                   new OS("Mac OS X", "10", "4", null, null),
-                                  new Device("Other"));
+                                  new Device("Other", null, null));
     Client expected2 = new Client(new UserAgent("Mobile Safari", "5", "1", null),
                                   new OS("iOS", "5", "1", "1", null),
-                                  new Device("iPhone"));
+                                  new Device("iPhone", "Apple", "iPhone"));
 
     assertThat(parser.parse(agentString1), is(expected1));
     assertThat(parser.parse(agentString2), is(expected2));
@@ -100,7 +100,9 @@ public class ParserTest {
                       + "    os_replacement: 'CatOS 9000'\n"
                       + "device_parsers:\n"
                       + "  - regex: 'CashPhone-([\\$0-9]+)\\.(\\d+)\\.(\\d+)'\n"
-                      + "    device_replacement: 'CashPhone $1'\n";
+                      + "    device_replacement: 'CashPhone $1'\n"
+                      + "    brand_replacement: 'CashPhone'\n"
+                      + "    model_replacement: '$1'\n";
 
     Parser testParser = parserFromStringConfig(testConfig);
     Client result = testParser.parse("ABC12\\34 (CashPhone-$9.0.1 CatOS OH-HAI=/^.^\\=)");
