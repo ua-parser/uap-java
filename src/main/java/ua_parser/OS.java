@@ -53,15 +53,15 @@ public class OS {
 
   @Override
   public int hashCode() {
-    int h = family == null ? 0 : family.hashCode();
-    h += major == null ? 0 : major.hashCode();
-    h += minor == null ? 0 : minor.hashCode();
-    h += patch == null ? 0 : patch.hashCode();
-    h += patchMinor == null ? 0 : patchMinor.hashCode();
-    return h;
+    int result = family != null ? family.hashCode() : 0;
+    result = 31 * result + (major != null ? major.hashCode() : 0);
+    result = 31 * result + (minor != null ? minor.hashCode() : 0);
+    result = 31 * result + (patch != null ? patch.hashCode() : 0);
+    result = 31 * result + (patchMinor != null ? patchMinor.hashCode() : 0);
+    return result;
   }
 
-  @Override
+    @Override
   public String toString() {
     return String.format("{\"family\": %s, \"major\": %s, \"minor\": %s, \"patch\": %s, \"patch_minor\": %s}",
                          family == null ? Constants.EMPTY_STRING : '"' + family + '"',

@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
  * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class DeviceParser {
-  List<DevicePattern> patterns;
+  final List<DevicePattern> patterns;
 
   public DeviceParser(List<DevicePattern> patterns) {
     this.patterns = patterns;
@@ -39,15 +39,14 @@ public class DeviceParser {
       return null;
     }
 
-    String device = null;
+    Device device;
     for (DevicePattern p : patterns) {
       if ((device = p.match(agentString)) != null) {
-        break;
+        return device;
       }
     }
-    if (device == null) device = "Other";
 
-    return new Device(device);
+    return new Device("Other", null, null);
   }
 
   public static DeviceParser fromList(List<Map<String,String>> configList) {
@@ -60,40 +59,102 @@ public class DeviceParser {
 
   protected static DevicePattern patternFromMap(Map<String, String> configMap) {
     String regex = configMap.get("regex");
+    String regex_flag = configMap.get("regex_flag");
     if (regex == null) {
       throw new IllegalArgumentException("Device is missing regex");
     }
-    return new DevicePattern(Pattern.compile(regex),
-                             configMap.get("device_replacement"));
+
+    Pattern pattern;
+    if (regex_flag != null && regex_flag.equals("i")) {
+      pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+    } else {
+      pattern = Pattern.compile(regex);
+    }
+
+    /**
+     * To maintains backwards compatibility the familyReplacement
+     * field has been named "device_replacement"
+     */
+    return new DevicePattern(pattern,
+                             configMap.get("device_replacement"),
+                             configMap.get("brand_replacement"),
+                             configMap.get("model_replacement"));
   }
 
   protected static class DevicePattern {
     private final Pattern pattern;
     private final String familyReplacement;
+    private final String brandReplacement;
+    private final String modelReplacement;
 
-    public DevicePattern(Pattern pattern, String familyReplacement) {
+    private static final Pattern GROUP_PATTERN = Pattern.compile("\\$(\\d+)");
+
+    public DevicePattern(Pattern pattern, String familyReplacement, String brandReplacement, String modelReplacement) {
       this.pattern = pattern;
       this.familyReplacement = familyReplacement;
+      this.brandReplacement = brandReplacement;
+      this.modelReplacement = modelReplacement;
     }
 
-    public String match(String agentString) {
+    private String performReplacement(Matcher matcher, String replacement) {
+      int count = matcher.groupCount();
+      StringBuffer buffer = new StringBuffer();
+      Matcher replaceMatcher = GROUP_PATTERN.matcher(replacement);
+      while (replaceMatcher.find()) {
+        String group = null;
+        try {
+          int id = Integer.parseInt(replaceMatcher.group(1));
+          if (id >= 0 && id <= count) {
+            group = matcher.group(id);
+          }
+        }
+        catch (NumberFormatException ignored) {}
+        catch (IllegalArgumentException ignored) {}
+        catch (IndexOutOfBoundsException ignored) {}
+        replaceMatcher.appendReplacement(buffer, group == null ? "" : Matcher.quoteReplacement(group));
+      }
+      replacement = buffer.toString();
+      return replacement;
+    }
+
+    private String replace(Matcher matcher, String replacement, int position) {
+      if (replacement == null) {
+        if (position > 0) {
+          replacement = "$" + position;
+        } else {
+          return null;
+        }
+      }
+
+      if (replacement.contains("$")) {
+        replacement = performReplacement(matcher, replacement);
+      }
+      replacement = replacement.trim();
+      if (replacement.length() == 0) {
+        return null;
+      } else {
+        return replacement;
+      }
+    }
+
+    public Device match(String agentString) {
+
       Matcher matcher = pattern.matcher(agentString);
 
       if (!matcher.find()) {
         return null;
       }
 
-      String family = null;
-      if (familyReplacement != null) {
-        if (familyReplacement.contains("$1") && matcher.groupCount() >= 1 && matcher.group(1) != null) {
-          family = familyReplacement.replaceFirst("\\$1", Matcher.quoteReplacement(matcher.group(1)));
-        } else {
-          family = familyReplacement;
-        }
-      } else if (matcher.groupCount() >= 1) {
-        family = matcher.group(1);
+      String family = replace(matcher, familyReplacement, 1);
+      String brand = replace(matcher, brandReplacement, -1);
+      String model = replace(matcher, modelReplacement, 1);
+
+      if (family != null) {
+        return new Device(family, brand, model);
+      } else {
+        return null;
       }
-      return family;
+
     }
   }
 
