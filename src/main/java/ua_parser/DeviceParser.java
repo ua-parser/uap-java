@@ -17,10 +17,8 @@
 package ua_parser;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +28,7 @@ import java.util.regex.Pattern;
  * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class DeviceParser {
-  List<DevicePattern> patterns;
+  final List<DevicePattern> patterns;
 
   public DeviceParser(List<DevicePattern> patterns) {
     this.patterns = patterns;
@@ -89,6 +87,8 @@ public class DeviceParser {
     private final String brandReplacement;
     private final String modelReplacement;
 
+    private static final Pattern GROUP_PATTERN = Pattern.compile("\\$(\\d+)");
+
     public DevicePattern(Pattern pattern, String familyReplacement, String brandReplacement, String modelReplacement) {
       this.pattern = pattern;
       this.familyReplacement = familyReplacement;
@@ -96,17 +96,25 @@ public class DeviceParser {
       this.modelReplacement = modelReplacement;
     }
 
-    private Set<Integer> extractPositions(String input) {
-      int position = 0;
-      Set<Integer> result = new HashSet<Integer>();
-      while ((position = input.indexOf('$', position)) != -1) {
-        char digit = input.charAt(position + 1);
-        if (Character.isDigit(digit)) {
-          result.add(Character.digit(digit, 10));
+    private String performReplacement(Matcher matcher, String replacement) {
+      int count = matcher.groupCount();
+      StringBuffer buffer = new StringBuffer();
+      Matcher replaceMatcher = GROUP_PATTERN.matcher(replacement);
+      while (replaceMatcher.find()) {
+        String group = null;
+        try {
+          int id = Integer.parseInt(replaceMatcher.group(1));
+          if (id >= 0 && id <= count) {
+            group = matcher.group(id);
+          }
         }
-        position++;
+        catch (NumberFormatException ignored) {}
+        catch (IllegalArgumentException ignored) {}
+        catch (IndexOutOfBoundsException ignored) {}
+        replaceMatcher.appendReplacement(buffer, group == null ? "" : Matcher.quoteReplacement(group));
       }
-      return result;
+      replacement = buffer.toString();
+      return replacement;
     }
 
     private String replace(Matcher matcher, String replacement, int position) {
@@ -117,13 +125,9 @@ public class DeviceParser {
           return null;
         }
       }
+
       if (replacement.contains("$")) {
-        Set<Integer> positions = extractPositions(replacement);
-        int count = matcher.groupCount();
-        for (Integer i : positions) {
-          String group = (i > count) ? null : matcher.group(i);
-          replacement = replacement.replace("$" + i, (group == null) ? "" : group);
-        }
+        replacement = performReplacement(matcher, replacement);
       }
       replacement = replacement.trim();
       if (replacement.length() == 0) {
