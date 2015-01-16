@@ -39,11 +39,11 @@ public class Device {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+  public boolean equals(Object other) {
+    if (this == other) return true;
+    if (!(other instanceof Device)) return false;
 
-    Device device = (Device) o;
+    Device device = (Device) other;
 
     if (brand != null ? !brand.equals(device.brand) : device.brand != null) return false;
     if (this.family != null ? !this.family.equals(device.family) : device.family != null) return false;
