@@ -40,14 +40,14 @@ public class Device {
 
   @Override
   public boolean equals(Object other) {
-    if (this == other) return true;
+    if (other == this) return true;
     if (!(other instanceof Device)) return false;
 
-    Device device = (Device) other;
+    Device o = (Device) other;
 
-    if (brand != null ? !brand.equals(device.brand) : device.brand != null) return false;
-    if (this.family != null ? !this.family.equals(device.family) : device.family != null) return false;
-    if (model != null ? !model.equals(device.model) : device.model != null) return false;
+    if (brand != null ? !brand.equals(o.brand) : o.brand != null) return false;
+    if (this.family != null ? !this.family.equals(o.family) : o.family != null) return false;
+    if (model != null ? !model.equals(o.model) : o.model != null) return false;
 
     return true;
   }
