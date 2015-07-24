@@ -1,3 +1,14 @@
+/**
+ * DeviceList.java
+ *
+ * This class holds a list of devices and their significant regex rules for parsing the UA.
+ * Based off the PHP class: https://github.com/serbanghita/Mobile-Detect/blob/master/Mobile_Detect.php
+ *
+ * NB: This is a temporary solution as this should be added to uap-core/regexes.yaml and then parsed from there as
+ * the other parsers do
+ *
+ * @author Salvatore D'Agostino
+ */
 package ua_parser;
 
 import java.util.Map;
