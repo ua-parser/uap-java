@@ -25,11 +25,54 @@ public class Client {
   public final UserAgent userAgent;
   public final OS os;
   public final Device device;
+  public final Platform platform;
 
-  public Client(UserAgent userAgent, OS os, Device device) {
+  public Client(UserAgent userAgent, OS os, Device device, Platform platform) {
     this.userAgent = userAgent;
     this.os = os;
     this.device = device;
+    this.platform = platform;
+  }
+
+  /**
+   * Calculates a pretty string of the browser version from the user agent
+   *
+   * @return           A string with format X.Y.Z
+   */
+  public String calculateBrowserVersion() {
+    String browserVersion = Constants.UNDEFINED;
+
+    // Build the browser version from all it's parts
+    if (this.userAgent.major != null) {
+      browserVersion = this.userAgent.major;
+
+      if (this.userAgent.minor != null) {
+        browserVersion.concat("."+this.userAgent.minor);
+
+        if (this.userAgent.patch != null) {
+          browserVersion.concat("."+this.userAgent.patch);
+        }
+      }
+    }
+    return browserVersion;
+  }
+
+  /**
+   * Calculates the family of the operating system (Apple, Google, Microsoft)
+   * @return Apple, Google, Microsoft, etc.
+   */
+  public String calculateOSFamily() {
+    return null;
+  }
+
+  /**
+   * Calculates the name of the operating system in a specific format:
+   *
+   * eg: iOS 8, iOS 7, Android 2.0
+   * @return iOS 8, iOS 7, Android 2.0
+   */
+  public String calculateOSName() {
+    return null;
   }
 
   @Override
