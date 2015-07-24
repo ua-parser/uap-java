@@ -35,9 +35,12 @@ public class Parser {
   private UserAgentParser uaParser;
   private OSParser osParser;
   private DeviceParser deviceParser;
+  private PlatformParser platformParser;
 
   public Parser() throws IOException {
     this(Parser.class.getResourceAsStream(REGEX_YAML_PATH));
+    // TODO: These lists should be appended to REGEX_YAML_PATH
+    this.platformParser = new PlatformParser(DeviceList.getPhoneDeviceList(), DeviceList.getTabletDeviceList());
   }
 
   public Parser(InputStream regexYaml) {
@@ -48,7 +51,8 @@ public class Parser {
     UserAgent ua = parseUserAgent(agentString);
     OS os = parseOS(agentString);
     Device device = deviceParser.parse(agentString);
-    return new Client(ua, os, device);
+    Platform platform = platformParser.parse(agentString);
+    return new Client(ua, os, device, platform);
   }
 
   public UserAgent parseUserAgent(String agentString) {
