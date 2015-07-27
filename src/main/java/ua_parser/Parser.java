@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -37,6 +38,7 @@ public class Parser {
   private DeviceParser deviceParser;
   private PlatformParser platformParser;
   private ManufactureParser manufactureParser;
+  private final Logger LOGGER = Logger.getLogger(PlatformParser.class.getName());
 
   public Parser() throws IOException {
     this(Parser.class.getResourceAsStream(REGEX_YAML_PATH));
@@ -49,6 +51,7 @@ public class Parser {
   }
 
   public Client parse(String agentString) {
+    LOGGER.info("Parsing UA: " + agentString);
     UserAgent ua = parseUserAgent(agentString);
     OS os = parseOS(agentString);
     Device device = deviceParser.parse(agentString);
@@ -91,5 +94,9 @@ public class Parser {
       throw new IllegalArgumentException("device_parsers is missing from yaml");
     }
     deviceParser = DeviceParser.fromList(deviceParserConfigs);
+
+    manufactureParser = new ManufactureParser();
+    // TODO: These lists should be appended to REGEX_YAML_PATH
+    platformParser = new PlatformParser(DeviceList.getPhoneDeviceList(), DeviceList.getTabletDeviceList());
   }
 }
