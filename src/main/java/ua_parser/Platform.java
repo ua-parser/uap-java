@@ -18,7 +18,7 @@ public class Platform {
         if (other == this) return true;
         if (!(other instanceof Platform)) return false;
 
-        Platform o = (Platform) other;
+        final Platform o = (Platform) other;
         return ((this.name != null) && this.name.equals(o.name)) || this.name == o.name;
     }
 
@@ -28,7 +28,7 @@ public class Platform {
 
     @Override
     public int hashCode() {
-        int h = name == null ? 0 : name.hashCode();
+        final int h = name == null ? 0 : name.hashCode();
         return h;
     }
 
