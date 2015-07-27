@@ -36,6 +36,7 @@ public class Parser {
   private OSParser osParser;
   private DeviceParser deviceParser;
   private PlatformParser platformParser;
+  private ManufactureParser manufactureParser;
 
   public Parser() throws IOException {
     this(Parser.class.getResourceAsStream(REGEX_YAML_PATH));
@@ -52,7 +53,8 @@ public class Parser {
     OS os = parseOS(agentString);
     Device device = deviceParser.parse(agentString);
     Platform platform = platformParser.parse(agentString);
-    return new Client(ua, os, device, platform);
+    Manufacture manufacture = manufactureParser.parse(agentString);
+    return new Client(ua, os, device, platform, manufacture);
   }
 
   public UserAgent parseUserAgent(String agentString) {
