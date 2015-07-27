@@ -26,12 +26,14 @@ public class Client {
   public final OS os;
   public final Device device;
   public final Platform platform;
+  public final Manufacture manufacture;
 
-  public Client(UserAgent userAgent, OS os, Device device, Platform platform) {
+  public Client(UserAgent userAgent, OS os, Device device, Platform platform, Manufacture manufacture) {
     this.userAgent = userAgent;
     this.os = os;
     this.device = device;
     this.platform = platform;
+    this.manufacture = manufacture;
   }
 
   /**
@@ -40,7 +42,7 @@ public class Client {
    * @return           A string with format X.Y.Z
    */
   public String calculateBrowserVersion() {
-    String browserVersion = Constants.UNDEFINED;
+    final String browserVersion;
 
     // Build the browser version from all it's parts
     if (this.userAgent.major != null) {
@@ -53,16 +55,10 @@ public class Client {
           browserVersion.concat("."+this.userAgent.patch);
         }
       }
+    } else {
+      browserVersion = Constants.UNDEFINED;
     }
     return browserVersion;
-  }
-
-  /**
-   * Calculates the family of the operating system (Apple, Google, Microsoft)
-   * @return Apple, Google, Microsoft, etc.
-   */
-  public String calculateOSFamily() {
-    return null;
   }
 
   /**
@@ -72,7 +68,17 @@ public class Client {
    * @return iOS 8, iOS 7, Android 2.0
    */
   public String calculateOSName() {
-    return null;
+    final String osName = this.os.family;
+
+    if(this.os.major != null) {
+      osName.concat(" " + this.os.major);
+
+      if (this.os.minor != null) {
+        osName.concat("." + this.os.minor);
+      }
+    }
+
+    return osName;
   }
 
   @Override
@@ -97,6 +103,7 @@ public class Client {
   @Override
   public String toString() {
     return String.format("{\"user_agent\": %s, \"os\": %s, \"device\": %s}",
-                         userAgent, os, device);
+        userAgent, os, device);
   }
+
 }
