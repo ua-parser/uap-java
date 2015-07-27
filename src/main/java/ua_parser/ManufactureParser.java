@@ -1,9 +1,9 @@
 package ua_parser;
 
-import com.google.common.collect.ImmutableMap;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import com.google.common.collect.ImmutableMultimap;
 
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,11 +11,9 @@ import java.util.regex.Pattern;
  * Created by sdagostino on 2015-07-27.
  */
 public class ManufactureParser {
-    private final Map<String, String> manufacureOsMap;
+    private final Logger LOGGER = Logger.getLogger(PlatformParser.class.getName());
 
-    public ManufactureParser(Map<String, String> manufacureOsMap) {
-        this.manufacureOsMap = manufacureOsMap;
-    }
+    public ManufactureParser() { }
 
     /**
      * Calculate the manufacture of the hosting OS from the User Agent
@@ -24,15 +22,21 @@ public class ManufactureParser {
      * @return The manufacture of the host OS
      */
     public Manufacture parse(String uaString) {
-        for (Map.Entry<String, String> entry : getManufactureOsMap().entrySet()) {
+        for (Map.Entry<String, String> entry : getManufactureOsMap().entries()) {
 
-            final Pattern pattern = Pattern.compile(entry.getValue());
-            final Matcher matcher = pattern.matcher(uaString);
+            // Itterate over all expressions assigned to a key
+            for (String regex : getManufactureOsMap().get(entry.getKey())) {
+                final Pattern pattern = Pattern.compile(regex);
+                final Matcher matcher = pattern.matcher(uaString);
 
-            if (matcher.find()) {
-                return  new Manufacture(entry.getKey());
+                if (matcher.find()) {
+                    LOGGER.info("Found match in manufacture with key: " + entry.getKey());
+                    return  new Manufacture(entry.getKey());
+                }
             }
         }
+
+        LOGGER.info("Could not find a manufacturer, using default manufaacture value");
         return new Manufacture(Constants.OTHER);
     }
 
@@ -41,8 +45,8 @@ public class ManufactureParser {
      *
      * @return a immutable map with manufacture => regex
      */
-    private static Map<String, String> getManufactureOsMap() {
-        return ImmutableMap.<String, String>builder().
+    private static ImmutableMultimap<String, String> getManufactureOsMap() {
+        return ImmutableMultimap.<String, String>builder().
             put(Constants.APPLE, "iOS").
             put(Constants.APPLE, "OS X").
             put(Constants.APPLE, "Macintosh").
