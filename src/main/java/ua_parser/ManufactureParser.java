@@ -1,3 +1,9 @@
+/**
+ * Manufaacture parser using a list of manufactures with a set of regex expressions. Will determine the
+ * manufacture of the host's OS.
+ *
+ * @author Salvatore D'Agostino (@iToto)
+ */
 package ua_parser;
 
 import com.google.common.collect.ImmutableMultimap;
