@@ -1,3 +1,9 @@
+/**
+ * Platform parser using custom list of devices. Will parse and categorize the platform
+ * of the UA into either Desktop, Mobile or Tablet.
+ *
+ * @author Salvatore D'Agostino (@iToto)
+ */
 package ua_parser;
 
 import java.util.Map;
@@ -5,12 +11,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Platform parser using custom list of devices. Will parse and categorize the platform
- * of the UA into either Desktop, Mobile or Tablet.
- *
- * @author Salvatore D'Agostino (@iToto)
- */
 public class PlatformParser {
     private final Map<String, String> mobileDevicePatters;
     private final Map<String, String> tabletDevicePatters;
