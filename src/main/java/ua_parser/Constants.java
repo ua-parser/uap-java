@@ -11,5 +11,7 @@ public class Constants {
   public static final String DESKTOP = "Desktop";
   public static final String APPLE = "Apple";
   public static final String GOOGLE = "Google";
+  public static final String LINUX = "Linux";
+  public static final String OTHER = "Other";
   public static final String MICROSOFT = "Microsoft";
 }
