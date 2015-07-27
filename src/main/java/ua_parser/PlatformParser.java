@@ -1,6 +1,7 @@
 package ua_parser;
 
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 public class PlatformParser {
     private final Map<String, String> mobileDevicePatters;
     private final Map<String, String> tabletDevicePatters;
+    private final Logger LOGGER = Logger.getLogger(PlatformParser.class.getName());
 
     public PlatformParser(Map<String, String> mobileDevicePatters, Map<String, String> tabletDevicePatters) {
         this.mobileDevicePatters = mobileDevicePatters;
@@ -20,26 +22,25 @@ public class PlatformParser {
     }
 
     public Platform parse(String uaString) {
-        final Platform platform;
 
         if (isMobile(uaString)) {
-            platform = new Platform(Constants.MOBILE);
+            return new Platform(Constants.MOBILE);
 
         } else if (isTablet(uaString)) {
-            platform = new Platform(Constants.TABLET);
+            return  new Platform(Constants.TABLET);
         }
         else { // if not a mobile or tablet, will assume desktop!
-            platform = new Platform(Constants.DESKTOP);
+            return new Platform(Constants.DESKTOP);
         }
-
-        return platform;
     }
 
     private boolean isMobile(String ua) {
+        LOGGER.info("Checking For Mobile Device");
         return runPatternsOnString(mobileDevicePatters, ua);
     }
 
     private boolean isTablet(String ua) {
+        LOGGER.info("Checking For Tablet Device");
         return runPatternsOnString(tabletDevicePatters, ua);
     }
 
@@ -50,9 +51,11 @@ public class PlatformParser {
 
             if (matcher.find()) {
                 // Found a match
+                LOGGER.info("Found match in device with key: " + entry.getKey());
                 return true;
             }
         }
+        LOGGER.info("No match found, using default platform value");
         return false;
     }
 }
