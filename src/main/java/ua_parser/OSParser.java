@@ -66,18 +66,20 @@ public class OSParser {
     return(new OSPattern(Pattern.compile(regex),
                          configMap.get("os_replacement"),
                          configMap.get("os_v1_replacement"),
-                         configMap.get("os_v2_replacement")));
+                         configMap.get("os_v2_replacement"),
+                         configMap.get("os_v3_replacement")));
   }
 
   protected static class OSPattern {
     private final Pattern pattern;
-    private final String osReplacement, v1Replacement, v2Replacement;
+    private final String osReplacement, v1Replacement, v2Replacement, v3Replacement;
 
-    public OSPattern(Pattern pattern, String osReplacement, String v1Replacement, String v2Replacement) {
+    public OSPattern(Pattern pattern, String osReplacement, String v1Replacement, String v2Replacement, String v3Replacement) {
       this.pattern = pattern;
       this.osReplacement = osReplacement;
       this.v1Replacement = v1Replacement;
       this.v2Replacement = v2Replacement;
+      this.v3Replacement = v3Replacement;
     }
 
     public OS match(String agentString) {
@@ -112,11 +114,13 @@ public class OSParser {
       } else if (groupCount >= 3) {
         v2 = matcher.group(3);
       }
-      if (groupCount >= 4) {
+      if(v3Replacement != null) {
+        v3 = v3Replacement;
+      } else if (groupCount >= 4) {
         v3 = matcher.group(4);
-        if (groupCount >= 5) {
-          v4 = matcher.group(5);
-        }
+      }
+      if (groupCount >= 5) {
+        v4 = matcher.group(5);
       }
 
       return family == null ? null : new OS(family, v1, v2, v3, v4);
