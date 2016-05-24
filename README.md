@@ -32,7 +32,22 @@ import ua_parser.Client;
 
   System.out.println(c.device.family);    // => "iPhone"
 ```
-
+in Hive: (copy ua-parser.jar into your CLASSPATH, and create function)
+```sql
+-- add jar to classpath
+add jar ua-parser.jar;
+-- create function
+CREATE TEMPORARY FUNCTION parse_agent as 'ua_parser.hive.ParseAgent';
+-- count visits
+SELECT parsed_agent['os_family'] AS os_family, COUNT(*) AS cnt
+FROM (
+  SELECT parse_agent(user_agent) AS parsed_agent
+  FROM table_name
+  WHERE date='today'
+) x
+GROUP BY parsed_agent['os_family']
+ORDER BY cnt DESC LIMIT 1000;
+```
 Author:
 -------
 
