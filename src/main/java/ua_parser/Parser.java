@@ -36,8 +36,15 @@ public class Parser {
   private OSParser osParser;
   private DeviceParser deviceParser;
 
-  public Parser() throws IOException {
-    this(Parser.class.getResourceAsStream(REGEX_YAML_PATH));
+  public Parser() {
+    InputStream regexYaml = Parser.class.getResourceAsStream(REGEX_YAML_PATH);
+    try {
+      initialize(regexYaml);
+    } finally {
+      try {
+        regexYaml.close();
+      } catch (IOException ignored) {}
+    }
   }
 
   public Parser(InputStream regexYaml) {

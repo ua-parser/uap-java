@@ -6,15 +6,16 @@
   <packaging>jar</packaging>
   <version>1.3.1-SNAPSHOT</version>
   <name>ua-parser</name>
-  <url>https://github.com/tobie/ua-parser/</url>
+  <url>https://github.com/ua-parser/uap-java/</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <hive.version>2.0.0</hive.version>
   </properties>
   <build>
     <resources>
       <resource>
         <targetPath>ua_parser</targetPath>
-        <directory>${basedir}/../uap-core</directory>
+        <directory>${basedir}/uap-core</directory>
         <includes>
           <include>regexes.yaml</include>
         </includes>
@@ -23,14 +24,14 @@
     <testResources>
       <testResource>
         <targetPath>ua_parser</targetPath>
-        <directory>${basedir}/../uap-core/test_resources</directory>
+        <directory>${basedir}/uap-core/test_resources</directory>
         <includes>
           <include>*.yaml</include>
         </includes>
       </testResource>
       <testResource>
         <targetPath>ua_parser</targetPath>
-        <directory>${basedir}/../uap-core/tests</directory>
+        <directory>${basedir}/uap-core/tests</directory>
         <includes>
           <include>*.yaml</include>
         </includes>
@@ -81,6 +82,12 @@
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-exec</artifactId>
+      <version>${hive.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>
