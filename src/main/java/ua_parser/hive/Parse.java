@@ -12,10 +12,10 @@ import ua_parser.Parser;
 /**
  * @author fanliwen
  */
-@Description(name="pase_agent",
+@Description(name="parse",
         value="_FUNC_ returns Map, which has keys such as 'os_family', 'os_major', 'os_minor', 'device', 'ua_family', 'ua_major' and 'ua_minor'.",
         extended="_FUNC_(user_agent_string)")
-public final class ParseAgent extends UDF {
+public final class Parse extends UDF {
 
     private static final Parser PARSER = new Parser();
 

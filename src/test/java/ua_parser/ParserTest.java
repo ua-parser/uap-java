@@ -16,17 +16,18 @@
 
 package ua_parser;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 /**
  * Tests parsing results match the expected results in the test_resources yamls
@@ -117,37 +118,55 @@ public class ParserTest {
   void testUserAgentFromYaml(String filename) {
     InputStream yamlStream = this.getClass().getResourceAsStream(TEST_RESOURCE_PATH + filename);
 
-    List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
-    for(Map<String, String> testCase : testCases) {
-      // Skip tests with js_ua as those overrides are not yet supported in java
-      if (testCase.containsKey("js_ua")) continue;
+    try {
+      List<Map> testCases = (List<Map>) ((Map) yaml.load(yamlStream)).get("test_cases");
+      for (Map<String, String> testCase : testCases) {
+        // Skip tests with js_ua as those overrides are not yet supported in java
+        if (testCase.containsKey("js_ua")) continue;
 
-      String uaString = testCase.get("user_agent_string");
-      assertThat(uaString, parser.parseUserAgent(uaString), is(UserAgent.fromMap(testCase)));
+        String uaString = testCase.get("user_agent_string");
+        assertThat(uaString, parser.parseUserAgent(uaString), is(UserAgent.fromMap(testCase)));
+      }
+    } finally {
+      try {
+        yamlStream.close();
+      } catch (IOException ignored) {}
     }
   }
 
   void testOSFromYaml(String filename) {
     InputStream yamlStream = this.getClass().getResourceAsStream(TEST_RESOURCE_PATH + filename);
 
-    List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
-    for(Map<String, String> testCase : testCases) {
-      // Skip tests with js_ua as those overrides are not yet supported in java
-      if (testCase.containsKey("js_ua")) continue;
+    try {
+      List<Map> testCases = (List<Map>) ((Map) yaml.load(yamlStream)).get("test_cases");
+      for (Map<String, String> testCase : testCases) {
+        // Skip tests with js_ua as those overrides are not yet supported in java
+        if (testCase.containsKey("js_ua")) continue;
 
-      String uaString = testCase.get("user_agent_string");
-      assertThat(uaString, parser.parseOS(uaString), is(OS.fromMap(testCase)));
+        String uaString = testCase.get("user_agent_string");
+        assertThat(uaString, parser.parseOS(uaString), is(OS.fromMap(testCase)));
+      }
+    } finally {
+      try {
+        yamlStream.close();
+      } catch (IOException ignored) {}
     }
   }
 
   void testDeviceFromYaml(String filename) {
     InputStream yamlStream = this.getClass().getResourceAsStream(TEST_RESOURCE_PATH + filename);
 
-    List<Map> testCases = (List<Map>) ((Map)yaml.load(yamlStream)).get("test_cases");
-    for(Map<String, String> testCase : testCases) {
+    try {
+      List<Map> testCases = (List<Map>) ((Map) yaml.load(yamlStream)).get("test_cases");
+      for (Map<String, String> testCase : testCases) {
 
-      String uaString = testCase.get("user_agent_string");
-      assertThat(uaString, parser.parseDevice(uaString), is(Device.fromMap(testCase)));
+        String uaString = testCase.get("user_agent_string");
+        assertThat(uaString, parser.parseDevice(uaString), is(Device.fromMap(testCase)));
+      }
+    } finally {
+      try {
+        yamlStream.close();
+      } catch (IOException ignored) {}
     }
   }
 
