@@ -14,7 +14,7 @@
     <resources>
       <resource>
         <targetPath>ua_parser</targetPath>
-        <directory>${basedir}/../uap-core</directory>
+        <directory>${basedir}/uap-core</directory>
         <includes>
           <include>regexes.yaml</include>
         </includes>
@@ -23,14 +23,14 @@
     <testResources>
       <testResource>
         <targetPath>ua_parser</targetPath>
-        <directory>${basedir}/../uap-core/test_resources</directory>
+        <directory>${basedir}/uap-core/test_resources</directory>
         <includes>
           <include>*.yaml</include>
         </includes>
       </testResource>
       <testResource>
         <targetPath>ua_parser</targetPath>
-        <directory>${basedir}/../uap-core/tests</directory>
+        <directory>${basedir}/uap-core/tests</directory>
         <includes>
           <include>*.yaml</include>
         </includes>
