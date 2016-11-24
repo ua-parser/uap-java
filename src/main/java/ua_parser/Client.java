@@ -25,11 +25,60 @@ public class Client {
   public final UserAgent userAgent;
   public final OS os;
   public final Device device;
+  public final Platform platform;
+  public final Manufacture manufacture;
 
-  public Client(UserAgent userAgent, OS os, Device device) {
+  public Client(UserAgent userAgent, OS os, Device device, Platform platform, Manufacture manufacture) {
     this.userAgent = userAgent;
     this.os = os;
     this.device = device;
+    this.platform = platform;
+    this.manufacture = manufacture;
+  }
+
+  /**
+   * Calculates a pretty string of the browser version from the user agent
+   *
+   * @return           A string with format X.Y.Z
+   */
+  public String calculateBrowserVersion() {
+    final String browserVersion;
+
+    // Build the browser version from all it's parts
+    if (this.userAgent.major != null) {
+      browserVersion = this.userAgent.major;
+
+      if (this.userAgent.minor != null) {
+        browserVersion.concat("."+this.userAgent.minor);
+
+        if (this.userAgent.patch != null) {
+          browserVersion.concat("."+this.userAgent.patch);
+        }
+      }
+    } else {
+      browserVersion = Constants.UNDEFINED;
+    }
+    return browserVersion;
+  }
+
+  /**
+   * Calculates the name of the operating system in a specific format:
+   *
+   * eg: iOS 8, iOS 7, Android 2.0
+   * @return iOS 8, iOS 7, Android 2.0
+   */
+  public String calculateOSName() {
+    final String osName = this.os.family;
+
+    if(this.os.major != null) {
+      osName.concat(" " + this.os.major);
+
+      if (this.os.minor != null) {
+        osName.concat("." + this.os.minor);
+      }
+    }
+
+    return osName;
   }
 
   @Override
@@ -54,6 +103,7 @@ public class Client {
   @Override
   public String toString() {
     return String.format("{\"user_agent\": %s, \"os\": %s, \"device\": %s}",
-                         userAgent, os, device);
+        userAgent, os, device);
   }
+
 }
