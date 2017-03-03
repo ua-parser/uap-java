@@ -16,7 +16,6 @@
 
 package ua_parser;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class Parser {
   private OSParser osParser;
   private DeviceParser deviceParser;
 
-  public Parser() throws IOException {
+  public Parser() {
     this(Parser.class.getResourceAsStream(REGEX_YAML_PATH));
   }
 
