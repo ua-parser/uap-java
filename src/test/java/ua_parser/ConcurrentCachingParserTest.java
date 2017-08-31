@@ -13,11 +13,11 @@ import java.io.InputStream;
  *
  * @author kyryloholodnov
  */
-public class MultithreadedCachingParserTest extends ParserTest {
+public class ConcurrentCachingParserTest extends ParserTest {
 
     @Before
     public void initParser() throws Exception {
-        parser = new MultithreadedCachingParser();
+        parser = new ConcurrentCachingParser();
     }
 
     @Override

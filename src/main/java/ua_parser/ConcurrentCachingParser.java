@@ -10,11 +10,11 @@ import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class is multithreaded version of CachingParser.
+ * This class is concurrent version of CachingParser.
  *
  * @author kyryloholodnov
  */
-public class MultithreadedCachingParser extends Parser {
+public class ConcurrentCachingParser extends Parser {
 
     private static long cacheKeyExpiresAfterAccessMs = 24 * 60L * 60 * 1000; // 24 hours
     private static long cacheMaximumSize = 1000;
@@ -26,7 +26,7 @@ public class MultithreadedCachingParser extends Parser {
                 @Override
                 @ParametersAreNonnullByDefault
                 public Client load(String agentString) throws Exception {
-                    return MultithreadedCachingParser.super.parse(agentString);
+                    return ConcurrentCachingParser.super.parse(agentString);
                 }
             });
 
@@ -37,7 +37,7 @@ public class MultithreadedCachingParser extends Parser {
                 @Override
                 @ParametersAreNonnullByDefault
                 public UserAgent load(String agentString) throws Exception {
-                    return MultithreadedCachingParser.super.parseUserAgent(agentString);
+                    return ConcurrentCachingParser.super.parseUserAgent(agentString);
                 }
             });
 
@@ -48,7 +48,7 @@ public class MultithreadedCachingParser extends Parser {
                 @Override
                 @ParametersAreNonnullByDefault
                 public Device load(String agentString) throws Exception {
-                    return MultithreadedCachingParser.super.parseDevice(agentString);
+                    return ConcurrentCachingParser.super.parseDevice(agentString);
                 }
             });
 
@@ -59,15 +59,15 @@ public class MultithreadedCachingParser extends Parser {
                 @Override
                 @ParametersAreNonnullByDefault
                 public OS load(String agentString) throws Exception {
-                    return MultithreadedCachingParser.super.parseOS(agentString);
+                    return ConcurrentCachingParser.super.parseOS(agentString);
                 }
             });
 
-    public MultithreadedCachingParser() throws IOException {
+    public ConcurrentCachingParser() throws IOException {
         super();
     }
 
-    public MultithreadedCachingParser(InputStream regexYaml) {
+    public ConcurrentCachingParser(InputStream regexYaml) {
         super(regexYaml);
     }
 
@@ -115,13 +115,13 @@ public class MultithreadedCachingParser extends Parser {
         if (cacheMaximumSize < 1) {
             throw new IllegalArgumentException("Cache size should be positive value");
         }
-        MultithreadedCachingParser.cacheMaximumSize = cacheMaximumSize;
+        ConcurrentCachingParser.cacheMaximumSize = cacheMaximumSize;
     }
 
     public static void setCacheKeyExpiresAfterAccessMs(long cacheKeyExpiresAfterAccessMs) {
         if (cacheKeyExpiresAfterAccessMs < 1) {
             throw new IllegalArgumentException("Cache key expiration should be positive value");
         }
-        MultithreadedCachingParser.cacheKeyExpiresAfterAccessMs = cacheKeyExpiresAfterAccessMs;
+        ConcurrentCachingParser.cacheKeyExpiresAfterAccessMs = cacheKeyExpiresAfterAccessMs;
     }
 }
