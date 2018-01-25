@@ -105,7 +105,13 @@ public class OSParser {
       }
 
       if (v1Replacement != null) {
+        if (groupCount >= 1) {
+          v1 = Pattern.compile("(" + Pattern.quote("$1") + ")")
+                  .matcher(v1Replacement)
+                  .replaceAll(matcher.group(1));
+        } else {
         v1 = v1Replacement;
+        }
       } else if (groupCount >= 2) {
         v1 = matcher.group(2);
       }
