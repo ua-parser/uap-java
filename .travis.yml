@@ -1,0 +1,4 @@
+language: java
+sudo: false
+
+script: "mvn package"
