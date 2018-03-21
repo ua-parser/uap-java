@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static ua_parser.ReplacementOps.replace;
+
+
 /**
  * Operating System parser using ua-parser. Extracts OS information from user agent strings.
  *
@@ -67,19 +70,21 @@ public class OSParser {
                          configMap.get("os_replacement"),
                          configMap.get("os_v1_replacement"),
                          configMap.get("os_v2_replacement"),
-                         configMap.get("os_v3_replacement")));
+                         configMap.get("os_v3_replacement"),
+                         configMap.get("os_v4_replacement")));
   }
 
   protected static class OSPattern {
     private final Pattern pattern;
-    private final String osReplacement, v1Replacement, v2Replacement, v3Replacement;
+    private final String osReplacement, v1Replacement, v2Replacement, v3Replacement, v4Replacement;
 
-    public OSPattern(Pattern pattern, String osReplacement, String v1Replacement, String v2Replacement, String v3Replacement) {
+    public OSPattern(Pattern pattern, String osReplacement, String v1Replacement, String v2Replacement, String v3Replacement, String v4Replacement) {
       this.pattern = pattern;
       this.osReplacement = osReplacement;
       this.v1Replacement = v1Replacement;
       this.v2Replacement = v2Replacement;
       this.v3Replacement = v3Replacement;
+      this.v4Replacement = v4Replacement;
     }
 
     public OS match(String agentString) {
@@ -104,24 +109,29 @@ public class OSParser {
         family = matcher.group(1);
       }
 
+
       if (v1Replacement != null) {
-        v1 = v1Replacement;
+        v1 = replace(v1Replacement, matcher);
       } else if (groupCount >= 2) {
         v1 = matcher.group(2);
       }
+
       if (v2Replacement != null) {
-        v2 = v2Replacement;
+        v2 = replace(v2Replacement, matcher);
       } else if (groupCount >= 3) {
         v2 = matcher.group(3);
       }
       if (v3Replacement != null) {
-        v3 = v3Replacement;
+        v3 = replace(v3Replacement, matcher);
       } else if (groupCount >= 4) {
         v3 = matcher.group(4);
       }
-      if (groupCount >= 5) {
+      if (v4Replacement != null) {
+        v4 = replace(v4Replacement, matcher);
+      } else if (groupCount >= 5) {
         v4 = matcher.group(5);
       }
+
 
       return family == null ? null : new OS(family, v1, v2, v3, v4);
     }

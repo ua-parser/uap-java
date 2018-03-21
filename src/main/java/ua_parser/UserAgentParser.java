@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ua_parser.ReplacementOps.replace;
+
 /**
  * User Agent parser using ua-parser regexes
  *
@@ -91,23 +93,19 @@ public class UserAgentParser {
       int groupCount = matcher.groupCount();
 
       if (familyReplacement != null) {
-        if (familyReplacement.contains("$1") && groupCount >= 1 && matcher.group(1) != null) {
-          family = familyReplacement.replaceFirst("\\$1", Matcher.quoteReplacement(matcher.group(1)));
-        } else {
-          family = familyReplacement;
-        }
+        family = replace(familyReplacement, matcher);
       } else if (groupCount >= 1) {
         family = matcher.group(1);
       }
 
       if (v1Replacement != null) {
-        v1 = v1Replacement;
+        v1 = replace(v1Replacement, matcher);
       } else if (groupCount >= 2) {
         v1 = matcher.group(2);
       }
 
       if (v2Replacement != null) {
-        v2 = v2Replacement;
+        v2 = replace(v2Replacement, matcher);
       } else if (groupCount >= 3) {
         v2 = matcher.group(3);
         if (groupCount >= 4) {
