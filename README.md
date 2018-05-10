@@ -1,8 +1,8 @@
 ua_parser Java Library
 ======================
 
-This is the Java implementation of [ua-parser](https://github.com/tobie/ua-parser).
-The implementation uses the shared regex patterns and overrides from regexes.yaml.
+This is the Java implementation of [ua-parser](https://github.com/ua-parser).
+The implementation uses the shared regex patterns and overrides from [regexes.yaml](https://github.com/ua-parser/uap-core/blob/master/regexes.yaml).
 
 Build:
 ------
