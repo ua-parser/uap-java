@@ -4,13 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.commons.collections.map.LRUMap;
-
-import ua_parser.Client;
-import ua_parser.Device;
-import ua_parser.OS;
-import ua_parser.Parser;
-import ua_parser.UserAgent;
+import org.apache.commons.collections4.map.LRUMap;
 
 /**
  * When doing webanalytics (with for example PIG) the main pattern is to process
@@ -47,14 +41,13 @@ public class CachingParser extends Parser {
 
   // ------------------------------------------
 
-  @SuppressWarnings("unchecked")
   @Override
   public Client parse(String agentString) {
     if (agentString == null) {
       return null;
     }
     if (cacheClient == null) {
-      cacheClient = new LRUMap(CACHE_SIZE);
+      cacheClient = new LRUMap<>(CACHE_SIZE);
     }
     Client client = cacheClient.get(agentString);
     if (client != null) {
@@ -67,14 +60,13 @@ public class CachingParser extends Parser {
 
   // ------------------------------------------
 
-  @SuppressWarnings("unchecked")
   @Override
   public UserAgent parseUserAgent(String agentString) {
     if (agentString == null) {
       return null;
     }
     if (cacheUserAgent == null) {
-      cacheUserAgent = new LRUMap(CACHE_SIZE);
+      cacheUserAgent = new LRUMap<>(CACHE_SIZE);
     }
     UserAgent userAgent = cacheUserAgent.get(agentString);
     if (userAgent != null) {
@@ -87,14 +79,13 @@ public class CachingParser extends Parser {
 
   // ------------------------------------------
 
-  @SuppressWarnings("unchecked")
   @Override
   public Device parseDevice(String agentString) {
     if (agentString == null) {
       return null;
     }
     if (cacheDevice == null) {
-      cacheDevice = new LRUMap(CACHE_SIZE);
+      cacheDevice = new LRUMap<>(CACHE_SIZE);
     }
     Device device = cacheDevice.get(agentString);
     if (device != null) {
@@ -107,7 +98,6 @@ public class CachingParser extends Parser {
 
   // ------------------------------------------
 
-  @SuppressWarnings("unchecked")
   @Override
   public OS parseOS(String agentString) {
     if (agentString == null) {
@@ -115,7 +105,7 @@ public class CachingParser extends Parser {
     }
 
     if (cacheOS == null) {
-      cacheOS = new LRUMap(CACHE_SIZE);
+      cacheOS = new LRUMap<>(CACHE_SIZE);
     }
     OS os = cacheOS.get(agentString);
     if (os != null) {
