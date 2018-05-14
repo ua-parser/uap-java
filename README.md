@@ -33,6 +33,53 @@ import ua_parser.Client;
   System.out.println(c.device.family);    // => "iPhone"
 ```
 
+## Publish to Sonatype OSSRH and Maven Central Repository
+
+Create a ~/.m2/settings.xml file with the following contents:
+```
+<settings>
+  <servers>
+    <server>
+      <id>ossrh</id>
+      <username>YOUR_OSSRH_USERNAME</username>
+      <password>YOUR_OSSRH_PASSWORD</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>ossrh</id>
+      <properties>
+        <gpg.keyname>YOUR_GPG_KEY_ID</gpg.keyname>
+        <gpg.executable>GPG_EXECUTABLE</gpg.executable>
+        <gpg.passphrase>YOUR_KEY_PASSPHRASE</gpg.passphrase>
+      </properties>
+    </profile>
+  </profiles>
+</settings>
+```
+On Mac OS X, the `gpg.executable` property should be `gpg2`.  
+
+### Instructions for Build/Deploy/Release  
+1. bump pom.xml version to non-snapshot version  
+1. commit and push to github  
+1. `mvn clean deploy -P ossrh`  
+1. log in to [Sonatype OSSRH](https://oss.sonatype.org/)  
+1. click Staging Repositories  
+1. find the release `comgithubua-parser-*`  
+1. verify the contents are ok  
+1. click Close (wait for validation steps under the Activity tab to complete)  
+1. click Release  
+1. bump pom.xml version to next snapshot version  
+1. commit and push to GitHub  
+
+### Additional Resources for Deploying to Sonatype OSSRH and Maven Central Repository    
+[Deploying to Sonatype OSSRH using Maven](http://central.sonatype.org/pages/apache-maven.html)  
+[Releasing the artifact in Sonatype OSSRH](http://central.sonatype.org/pages/releasing-the-deployment.html)  
+
+Sonatype OSSRH is synced with Maven Central Repository so the artifacts will appear in Maven Central Repo
+automatically shortly after releasing.  
+
 Author:
 -------
 
