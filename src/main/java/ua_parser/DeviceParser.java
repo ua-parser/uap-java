@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Device parser using ua-parser regexes. Extracts device information from user agent strings.
  *
- * @author Steve Jiang (@sjiang) <gh at iamsteve com>
+ * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class DeviceParser {
   List<DevicePattern> patterns;

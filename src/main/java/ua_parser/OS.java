@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Operating System parsed data class
  *
- * @author Steve Jiang (@sjiang) <gh at iamsteve com>
+ * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class OS {
   public final String family, major, minor, patch, patchMinor;

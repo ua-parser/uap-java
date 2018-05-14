@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * User Agent parser using ua-parser regexes
  *
- * @author Steve Jiang (@sjiang) <gh at iamsteve com>
+ * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class UserAgentParser {
   private final List<UAPattern> patterns;

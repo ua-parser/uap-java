@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * User Agent parsed data class
  *
- * @author Steve Jiang (@sjiang) <gh at iamsteve com>
+ * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class UserAgent {
   public final String family, major, minor, patch;
