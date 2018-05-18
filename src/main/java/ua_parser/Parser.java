@@ -16,18 +16,18 @@
 
 package ua_parser;
 
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
-
 /**
- * Java implementation of <a href="https://github.com/ua-parser">UA Parser</a>
+ * Java implementation of <a href="https://github.com/tobie/ua-parser">UA Parser</a>
  *
- * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
+ * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class Parser {
 
@@ -72,18 +72,18 @@ public class Parser {
     if (uaParserConfigs == null) {
       throw new IllegalArgumentException("user_agent_parsers is missing from yaml");
     }
-    uaParser = UserAgentParser.fromList(uaParserConfigs);
+    uaParser = new UserAgentParser(uaParserConfigs);
 
     List<Map<String,String>> osParserConfigs = regexConfig.get("os_parsers");
     if (osParserConfigs == null) {
       throw new IllegalArgumentException("os_parsers is missing from yaml");
     }
-    osParser = OSParser.fromList(osParserConfigs);
+    osParser = new OSParser(osParserConfigs);
 
     List<Map<String,String>> deviceParserConfigs = regexConfig.get("device_parsers");
     if (deviceParserConfigs == null) {
       throw new IllegalArgumentException("device_parsers is missing from yaml");
     }
-    deviceParser = DeviceParser.fromList(deviceParserConfigs);
+    deviceParser = new DeviceParser(deviceParserConfigs);
   }
 }

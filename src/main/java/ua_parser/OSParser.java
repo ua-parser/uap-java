@@ -25,22 +25,19 @@ import java.util.Map;
 /**
  * Operating System parser using ua-parser. Extracts OS information from user agent strings.
  *
- * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
+ * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class OSParser {
-  private final List<OSPattern> patterns;
+  private  List<OSPattern> patterns;
 
-  public OSParser(List<OSPattern> patterns) {
-    this.patterns = patterns;
-  }
 
-  public static OSParser fromList(List<Map<String,String>> configList) {
+  public OSParser (List<Map<String,String>> configList) {
     List<OSPattern> configPatterns = new ArrayList<OSPattern>();
 
     for (Map<String,String> configMap : configList) {
       configPatterns.add(OSParser.patternFromMap(configMap));
     }
-    return new OSParser(configPatterns);
+    this.patterns = configPatterns;
   }
 
   public OS parse(String agentString) {
@@ -71,10 +68,15 @@ public class OSParser {
   }
 
   protected static class OSPattern {
+
     private final Pattern pattern;
     private final String osReplacement, v1Replacement, v2Replacement, v3Replacement;
 
-    public OSPattern(Pattern pattern, String osReplacement, String v1Replacement, String v2Replacement, String v3Replacement) {
+    private ReplacementCmd cmd = ReplacementCmd.getInstance();
+
+    public OSPattern(Pattern pattern, String osReplacement,
+                     String v1Replacement, String v2Replacement,
+                     String v3Replacement) {
       this.pattern = pattern;
       this.osReplacement = osReplacement;
       this.v1Replacement = v1Replacement;
@@ -97,56 +99,29 @@ public class OSParser {
               family = Pattern.compile("(" + Pattern.quote("$1") + ")")
                               .matcher(osReplacement)
                               .replaceAll(matcher.group(1));
-          } else { 
-              family = osReplacement; 
+          } else {
+              family = osReplacement;
           }
       } else if (groupCount >= 1) {
         family = matcher.group(1);
       }
 
-      if (v1Replacement != null) {
-        v1 = getReplacement(matcher, v1Replacement);
-      } else if (groupCount >= 2) {
-        v1 = matcher.group(2);
-      }
-      if (v2Replacement != null) {
-        v2 = getReplacement(matcher, v2Replacement);
-      } else if (groupCount >= 3) {
-        v2 = matcher.group(3);
-      }
-      if (v3Replacement != null) {
-        v3 = getReplacement(matcher, v3Replacement);
-      } else if (groupCount >= 4) {
-        v3 = matcher.group(4);
-      }
+      // See specification, replacements can be regex backreferences
+      // https://github.com/ua-parser/uap-core/blob/master/docs/specification.md
+
       if (groupCount >= 5) {
         v4 = matcher.group(5);
       }
 
-      return family == null ? null : new OS(family, v1, v2, v3, v4);
+      return family == null ? null : new OS(cmd.execute(osReplacement, matcher,1), cmd.execute(v1Replacement,matcher, 2),
+          cmd.execute(v2Replacement, matcher, 3), cmd.execute(v3Replacement, matcher, 4),
+          v4);
     }
-    
-    private String getReplacement(Matcher matcher, String replacement) {
-    	if (isBackReference(replacement)) {
-    		int group = getGroup(replacement);
-    		return matcher.group(group);
-    	} else {
-    		return replacement;
-    	}
-    }
-    
-    /**
-     * Checks if the replacement is a backreference (i.e. $1, $2, $3, etc) to a capturing group in the regular expression.
-     */
-    private boolean isBackReference(String replacement) {
-    	return replacement.startsWith("$");
-    }
-    
-    /**
-     * Extracts the group number from a backreference like $1, $2, $3, etc.
-     */
-    private int getGroup(String backReference) {
-    	return Integer.valueOf(backReference.substring(1));
-    }
+
+
+
+
+
+
   }
 }

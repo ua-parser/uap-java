@@ -25,22 +25,18 @@ import java.util.regex.Pattern;
 /**
  * User Agent parser using ua-parser regexes
  *
- * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
+ * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class UserAgentParser {
-  private final List<UAPattern> patterns;
+  private List<UAPattern> patterns;
 
-  public UserAgentParser(List<UAPattern> patterns) {
-    this.patterns = patterns;
-  }
-
-  public static UserAgentParser fromList(List<Map<String,String>> configList) {
+  public  UserAgentParser(List<Map<String,String>> configList) {
     List<UAPattern> configPatterns = new ArrayList<UAPattern>();
 
     for (Map<String, String> configMap : configList) {
       configPatterns.add(UserAgentParser.patternFromMap(configMap));
     }
-    return new UserAgentParser(configPatterns);
+    this.patterns = configPatterns;
   }
 
   public UserAgent parse(String agentString) {
@@ -73,6 +69,8 @@ public class UserAgentParser {
     private final Pattern pattern;
     private final String familyReplacement, v1Replacement, v2Replacement;
 
+    private ReplacementCmd cmd = ReplacementCmd.getInstance();
+
     public UAPattern(Pattern pattern, String familyReplacement, String v1Replacement, String v2Replacement) {
       this.pattern = pattern;
       this.familyReplacement = familyReplacement;
@@ -90,31 +88,13 @@ public class UserAgentParser {
 
       int groupCount = matcher.groupCount();
 
-      if (familyReplacement != null) {
-        if (familyReplacement.contains("$1") && groupCount >= 1 && matcher.group(1) != null) {
-          family = familyReplacement.replaceFirst("\\$1", Matcher.quoteReplacement(matcher.group(1)));
-        } else {
-          family = familyReplacement;
-        }
-      } else if (groupCount >= 1) {
-        family = matcher.group(1);
+      if (groupCount >= 4) {
+        v3 = matcher.group(4);
       }
-
-      if (v1Replacement != null) {
-        v1 = v1Replacement;
-      } else if (groupCount >= 2) {
-        v1 = matcher.group(2);
-      }
-
-      if (v2Replacement != null) {
-        v2 = v2Replacement;
-      } else if (groupCount >= 3) {
-        v2 = matcher.group(3);
-        if (groupCount >= 4) {
-          v3 = matcher.group(4);
-        }
-      }
-      return family == null ? null : new UserAgent(family, v1, v2, v3);
+      return new UserAgent(
+          cmd.execute(familyReplacement, matcher,1),
+          cmd.execute(v1Replacement,matcher,2),
+          cmd.execute(v2Replacement,matcher,3), v3);
     }
   }
 }

@@ -25,14 +25,11 @@ import java.util.regex.Pattern;
 /**
  * Device parser using ua-parser regexes. Extracts device information from user agent strings.
  *
- * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
+ * @author Steve Jiang (@sjiang) <gh at iamsteve com>
  */
 public class DeviceParser {
   List<DevicePattern> patterns;
 
-  public DeviceParser(List<DevicePattern> patterns) {
-    this.patterns = patterns;
-  }
 
   public Device parse(String agentString) {
     if (agentString == null) {
@@ -50,69 +47,48 @@ public class DeviceParser {
     return new Device(device);
   }
 
-  public static DeviceParser fromList(List<Map<String,String>> configList) {
+  public DeviceParser(List<Map<String,String>> configList) {
     List<DevicePattern> configPatterns = new ArrayList<DevicePattern>();
     for (Map<String,String> configMap : configList) {
       configPatterns.add(DeviceParser.patternFromMap(configMap));
     }
-    return new DeviceParser(configPatterns);
+    this.patterns = configPatterns;
   }
 
   protected static DevicePattern patternFromMap(Map<String, String> configMap) {
     String regex = configMap.get("regex");
     if (regex == null) {
       throw new IllegalArgumentException("Device is missing regex");
-    }    
-    Pattern pattern = "i".equals(configMap.get("regex_flag")) // no ohter flags used (by now) 
-    		? Pattern.compile(regex, Pattern.CASE_INSENSITIVE) : Pattern.compile(regex);
+    }
+    // no ohter flags used (by now)
+    Pattern pattern = "i".equals(configMap.get("regex_flag"))
+    ? Pattern.compile(regex, Pattern.CASE_INSENSITIVE) : Pattern.compile(regex);
     return new DevicePattern(pattern, configMap.get("device_replacement"));
   }
 
   protected static class DevicePattern {
-	private static final Pattern SUBSTITUTIONS_PATTERN = Pattern.compile("\\$\\d");
     private final Pattern pattern;
     private final String deviceReplacement;
 
-    public DevicePattern(Pattern pattern, String deviceReplacement) {
+    private ReplacementCmd cmd = ReplacementCmd.getInstance();
+
+    public DevicePattern(Pattern pattern, String deviceReplacement){
+
       this.pattern = pattern;
       this.deviceReplacement = deviceReplacement;
+
     }
 
-    public String match(String agentString) {
+    public String match(String agentString){
       Matcher matcher = pattern.matcher(agentString);
       if (!matcher.find()) {
         return null;
       }
       String device = null;
-      if (deviceReplacement != null) {
-        if (deviceReplacement.contains("$")) {
-          device = deviceReplacement;
-          for (String substitution : getSubstitutions(deviceReplacement)) {    	  
-        	int i = Integer.valueOf(substitution.substring(1));
-            String replacement = matcher.groupCount() >= i && matcher.group(i) != null 
-        			  ? Matcher.quoteReplacement(matcher.group(i)) : "";
-              device = device.replaceFirst("\\" + substitution, replacement);  
-          }
-          device = device.trim();
-    	} else {
-          device = deviceReplacement;
-        } 
-      } else if (matcher.groupCount() >= 1) {
-        device = matcher.group(1);
-      }
+      device = cmd.execute(deviceReplacement, matcher, 1);
 
       return device;
     }
-    
-    private List<String> getSubstitutions(String deviceReplacement) {
-      Matcher matcher = SUBSTITUTIONS_PATTERN.matcher(deviceReplacement);
-      List<String> substitutions = new ArrayList<String>();
-      while (matcher.find()) {
-        substitutions.add(matcher.group());
-      }
-      return substitutions;
-    }
-    
-  }
+   }
 
 }
