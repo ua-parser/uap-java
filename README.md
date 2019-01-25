@@ -23,6 +23,13 @@ SBT
 Build:
 ------
 
+```
+#first time:
+#git submodule update --init --recursive
+#then:
+git submodule update --recursive
+mvn package
+```
 uap-java depends on the uap-core project therefore it uses a Git submodule to represent that dependency.  
 Before building uap-java, a copy of the uap-core project must be checked out within the local uap-java repository.  
 In order to do this, execute the following command (from the base `uap-java` folder) to initialize and checkout the submodule.  
@@ -62,6 +69,10 @@ System.out.println(c.os.minor);         // => "1"
 System.out.println(c.device.family);    // => "iPhone"
 ```
 
+### Instructions for Build/Deploy/Releas
+
+
+Author:
 ### Changelog
 Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki/ChangeLog).
 
