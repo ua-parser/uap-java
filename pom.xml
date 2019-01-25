@@ -2,27 +2,27 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.ua-parser</groupId>
   <artifactId>uap-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.4.1-SNAPSHOT</version>
+  <version>1.4.1-mbr</version>
   <name>User Agent Parser for Java</name>
-  
+
   <description>
-  	Java implementation of the UA Parser library. Derives operating system, browser and device
-  	metadata from a user-agent string. This library consumes the regular expression
-  	rules defined in https://github.com/ua-parser/uap-core.
+    Java implementation of the UA Parser library. Derives operating system, browser and device
+    metadata from a user-agent string. This library consumes the regular expression
+    rules defined in https://github.com/ua-parser/uap-core.
   </description>
-  
+
   <licenses>
     <license>
-  	  <name>The Apache License, Version 2.0</name>
+      <name>The Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
-  
+
   <developers>
     <developer>
       <name>Benjamin Possolo</name>
@@ -31,30 +31,19 @@
       <organizationUrl>https://github.com/ua-parser</organizationUrl>
     </developer>
   </developers>
-  
+
   <url>https://github.com/ua-parser/uap-java</url>
-  
+
   <scm>
-    <connection>scm:git:git://github.com/ua-parser/uap-java.git</connection>
-    <developerConnection>scm:git:ssh://github.com:ua-parser/uap-java.git</developerConnection>
-    <url>http://github.com/ua-parser/uap-java/tree/master</url>
+    <connection>scm:git:git://github.com/mbrtargeting/uap-java.git</connection>
+    <developerConnection>scm:git:ssh://github.com:mbrtargeting/uap-java.git</developerConnection>
+    <url>http://github.com/mbrtargeting/uap-java/tree/master</url>
   </scm>
-  
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+
   <build>
     <resources>
       <resource>
@@ -65,7 +54,7 @@
         </includes>
       </resource>
     </resources>
-    
+
     <testResources>
       <testResource>
         <targetPath>ua_parser</targetPath>
@@ -82,7 +71,7 @@
         </includes>
       </testResource>
     </testResources>
-    
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -95,59 +84,7 @@
       </plugin>
     </plugins>
   </build>
-  
-  <profiles>
-    <profile>
-      <id>ossrh</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>3.0.1</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.yaml</groupId>
