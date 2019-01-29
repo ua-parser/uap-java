@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
  */
 public class UserAgentParser {
   private final List<UAPattern> patterns;
-
   public UserAgentParser(List<UAPattern> patterns) {
     this.patterns = patterns;
   }
