@@ -19,13 +19,12 @@ import org.apache.commons.collections4.map.LRUMap;
  */
 public class CachingParser extends Parser {
 
-    // TODO: Make configurable
-    private static final int CACHE_SIZE = 1000;
-
     private Map<String, Client> cacheClient = null;
     private Map<String, UserAgent> cacheUserAgent = null;
     private Map<String, Device> cacheDevice = null;
     private Map<String, OS> cacheOS = null;
+
+    private int cacheSize = 1000;
 
     // ------------------------------------------
 
@@ -37,6 +36,11 @@ public class CachingParser extends Parser {
         super(regexYaml);
     }
 
+    public CachingParser(int cacheSize) throws IOException {
+        super();
+        this.cacheSize = cacheSize;
+    }
+
     // ------------------------------------------
 
     @Override
@@ -45,7 +49,7 @@ public class CachingParser extends Parser {
             return null;
         }
         if (cacheClient == null) {
-            cacheClient = new LRUMap<>(CACHE_SIZE);
+            cacheClient = new LRUMap<>(cacheSize);
         }
         Client client = cacheClient.get(agentString);
         if (client != null) {
@@ -64,7 +68,7 @@ public class CachingParser extends Parser {
             return null;
         }
         if (cacheUserAgent == null) {
-            cacheUserAgent = new LRUMap<>(CACHE_SIZE);
+            cacheUserAgent = new LRUMap<>(cacheSize);
         }
         UserAgent userAgent = cacheUserAgent.get(agentString);
         if (userAgent != null) {
@@ -83,7 +87,7 @@ public class CachingParser extends Parser {
             return null;
         }
         if (cacheDevice == null) {
-            cacheDevice = new LRUMap<>(CACHE_SIZE);
+            cacheDevice = new LRUMap<>(cacheSize);
         }
         Device device = cacheDevice.get(agentString);
         if (device != null) {
@@ -103,7 +107,7 @@ public class CachingParser extends Parser {
         }
 
         if (cacheOS == null) {
-            cacheOS = new LRUMap<>(CACHE_SIZE);
+            cacheOS = new LRUMap<>(cacheSize);
         }
         OS os = cacheOS.get(agentString);
         if (os != null) {
@@ -117,3 +121,4 @@ public class CachingParser extends Parser {
     // ------------------------------------------
 
 }
+
