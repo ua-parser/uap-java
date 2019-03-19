@@ -12,7 +12,7 @@ Before building uap-java, a copy of the uap-core project must be checked out wit
 In order to do this, execute the following command (from the base `uap-java` folder) to initialize and checkout the submodule.  
 
 ```
-git update --init --remote --checkout --recursive
+git submodule update --init --remote --checkout --recursive
 ```
 
 you will then have the following folder `uap-java/uap-core` which contains the child repository.
