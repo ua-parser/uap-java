@@ -7,7 +7,20 @@ The implementation uses the shared regex patterns and overrides from [regexes.ya
 Build:
 ------
 
-    mvn package
+uap-java depends on the uap-core project therefore it uses a Git submodule to represent that dependency.  
+Before building uap-java, a copy of the uap-core project must be checked out within the local uap-java repository.  
+In order to do this, execute the following command (from the base `uap-java` folder) to initialize and checkout the submodule.  
+
+```
+git update --init --remote --checkout --recursive
+```
+
+you will then have the following folder `uap-java/uap-core` which contains the child repository.
+
+To build the project, execute
+```
+mvn package
+```
 
 Usage:
 --------
