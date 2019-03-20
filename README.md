@@ -85,6 +85,7 @@ On Mac OS X, the `gpg.executable` property should be `gpg2`.
 1. click Release  
 1. bump pom.xml version to next snapshot version  
 1. commit and push to GitHub  
+1. update changelog wiki page  
 
 ### Additional Resources for Deploying to Sonatype OSSRH and Maven Central Repository    
 [Deploying to Sonatype OSSRH using Maven](http://central.sonatype.org/pages/apache-maven.html)  
