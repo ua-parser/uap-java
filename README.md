@@ -93,6 +93,9 @@ On Mac OS X, the `gpg.executable` property should be `gpg2`.
 Sonatype OSSRH is synced with Maven Central Repository so the artifacts will appear in Maven Central Repo
 automatically shortly after releasing.  
 
+### Changelog
+Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki#changelog).
+
 Author:
 -------
 
