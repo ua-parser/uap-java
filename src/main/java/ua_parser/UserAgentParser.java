@@ -17,6 +17,7 @@
 package ua_parser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -28,19 +29,23 @@ import java.util.regex.Pattern;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class UserAgentParser {
+
   private final List<UAPattern> patterns;
 
   public UserAgentParser(List<UAPattern> patterns) {
     this.patterns = patterns;
   }
 
+  /**
+   * Constructs a thread-safe UserAgentParser
+   */
   public static UserAgentParser fromList(List<Map<String,String>> configList) {
     List<UAPattern> configPatterns = new ArrayList<UAPattern>();
 
     for (Map<String, String> configMap : configList) {
       configPatterns.add(UserAgentParser.patternFromMap(configMap));
     }
-    return new UserAgentParser(configPatterns);
+    return new UserAgentParser(Collections.synchronizedList(configPatterns));
   }
 
   public UserAgent parse(String agentString) {
