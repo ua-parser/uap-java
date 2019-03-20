@@ -17,9 +17,9 @@
 package ua_parser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +45,7 @@ public class UserAgentParser {
     for (Map<String, String> configMap : configList) {
       configPatterns.add(UserAgentParser.patternFromMap(configMap));
     }
-    return new UserAgentParser(Collections.synchronizedList(configPatterns));
+    return new UserAgentParser(new CopyOnWriteArrayList<>(configPatterns));
   }
 
   public UserAgent parse(String agentString) {

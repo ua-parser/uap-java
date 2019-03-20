@@ -17,9 +17,9 @@
 package ua_parser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +60,7 @@ public class DeviceParser {
     for (Map<String,String> configMap : configList) {
       configPatterns.add(DeviceParser.patternFromMap(configMap));
     }
-    return new DeviceParser(Collections.synchronizedList(configPatterns));
+    return new DeviceParser(new CopyOnWriteArrayList<>(configPatterns));
   }
 
   protected static DevicePattern patternFromMap(Map<String, String> configMap) {
