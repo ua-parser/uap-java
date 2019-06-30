@@ -24,6 +24,9 @@ import java.util.Map;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class Device {
+
+  public static final Device OTHER = new Device("Other");
+
   public final String family;
 
   public Device(String family) {

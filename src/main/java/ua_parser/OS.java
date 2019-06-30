@@ -24,6 +24,9 @@ import java.util.Map;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class OS {
+
+  public static final OS OTHER = new OS("Other", null, null, null, null);
+
   public final String family, major, minor, patch, patchMinor;
 
   public OS(String family, String major, String minor, String patch, String patchMinor) {

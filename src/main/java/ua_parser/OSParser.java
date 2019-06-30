@@ -40,7 +40,7 @@ public class OSParser {
    * Constructs a thread-safe OSParser.
    */
   public static OSParser fromList(List<Map<String,String>> configList) {
-    List<OSPattern> configPatterns = new ArrayList<OSPattern>();
+    List<OSPattern> configPatterns = new ArrayList<>();
 
     for (Map<String,String> configMap : configList) {
       configPatterns.add(OSParser.patternFromMap(configMap));
@@ -59,7 +59,7 @@ public class OSParser {
         return os;
       }
     }
-    return new OS("Other", null, null, null, null);
+    return OS.OTHER;
   }
 
   protected static OSPattern patternFromMap(Map<String, String> configMap) {
