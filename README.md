@@ -30,46 +30,20 @@ import ua_parser.Client;
 
 ...
 
-  String uaString = "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3";
+String uaString = "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3";
 
-  Parser uaParser = new Parser();
-  Client c = uaParser.parse(uaString);
+Parser uaParser = new Parser();
+Client c = uaParser.parse(uaString);
 
-  System.out.println(c.userAgent.family); // => "Mobile Safari"
-  System.out.println(c.userAgent.major);  // => "5"
-  System.out.println(c.userAgent.minor);  // => "1"
+System.out.println(c.userAgent.family); // => "Mobile Safari"
+System.out.println(c.userAgent.major);  // => "5"
+System.out.println(c.userAgent.minor);  // => "1"
 
-  System.out.println(c.os.family);        // => "iOS"
-  System.out.println(c.os.major);         // => "5"
-  System.out.println(c.os.minor);         // => "1"
+System.out.println(c.os.family);        // => "iOS"
+System.out.println(c.os.major);         // => "5"
+System.out.println(c.os.minor);         // => "1"
 
-  System.out.println(c.device.family);    // => "iPhone"
-```
-
-## Publish to Sonatype OSSRH and Maven Central Repository
-
-Create a ~/.m2/settings.xml file with the following contents:
-```
-<settings>
-  <servers>
-    <server>
-      <id>ossrh</id>
-      <username>YOUR_OSSRH_USERNAME</username>
-      <password>YOUR_OSSRH_PASSWORD</password>
-    </server>
-  </servers>
-
-  <profiles>
-    <profile>
-      <id>ossrh</id>
-      <properties>
-        <gpg.keyname>YOUR_GPG_KEY_ID</gpg.keyname>
-        <gpg.executable>GPG_EXECUTABLE</gpg.executable>
-        <gpg.passphrase>YOUR_KEY_PASSPHRASE</gpg.passphrase>
-      </properties>
-    </profile>
-  </profiles>
-</settings>
+System.out.println(c.device.family);    // => "iPhone"
 ```
 On Mac OS X, the `gpg.executable` property should be `gpg2`.  
 
@@ -87,12 +61,8 @@ On Mac OS X, the `gpg.executable` property should be `gpg2`.
 1. commit and push to GitHub  
 1. update changelog wiki page  
 
-### Additional Resources for Deploying to Sonatype OSSRH and Maven Central Repository    
-[Deploying to Sonatype OSSRH using Maven](http://central.sonatype.org/pages/apache-maven.html)  
-[Releasing the artifact in Sonatype OSSRH](http://central.sonatype.org/pages/releasing-the-deployment.html)  
+### Instructions for Build/Deploy/Releas
 
-Sonatype OSSRH is synced with Maven Central Repository so the artifacts will appear in Maven Central Repo
-automatically shortly after releasing.  
 
 ### Changelog
 Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki#changelog).
@@ -100,6 +70,6 @@ Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki#changel
 Author:
 -------
 
-  * Steve Jiang [@sjiang](https://twitter.com/sjiang)
+* Steve Jiang [@sjiang](https://twitter.com/sjiang)
 
-  Based on the python implementation by Lindsey Simon and using agent data from BrowserScope
+Based on the python implementation by Lindsey Simon and using agent data from BrowserScope
