@@ -16,11 +16,12 @@
 
 package ua_parser;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Operating System parser using ua-parser. Extracts OS information from user agent strings.
@@ -28,19 +29,23 @@ import java.util.Map;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class OSParser {
+
   private final List<OSPattern> patterns;
 
   public OSParser(List<OSPattern> patterns) {
     this.patterns = patterns;
   }
 
+  /**
+   * Constructs a thread-safe OSParser.
+   */
   public static OSParser fromList(List<Map<String,String>> configList) {
     List<OSPattern> configPatterns = new ArrayList<OSPattern>();
 
     for (Map<String,String> configMap : configList) {
       configPatterns.add(OSParser.patternFromMap(configMap));
     }
-    return new OSParser(configPatterns);
+    return new OSParser(new CopyOnWriteArrayList<>(configPatterns));
   }
 
   public OS parse(String agentString) {

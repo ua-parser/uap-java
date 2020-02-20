@@ -7,7 +7,20 @@ The implementation uses the shared regex patterns and overrides from [regexes.ya
 Build:
 ------
 
-    mvn package
+uap-java depends on the uap-core project therefore it uses a Git submodule to represent that dependency.  
+Before building uap-java, a copy of the uap-core project must be checked out within the local uap-java repository.  
+In order to do this, execute the following command (from the base `uap-java` folder) to initialize and checkout the submodule.  
+
+```
+git submodule update --init --remote --checkout --recursive
+```
+
+you will then have the following folder `uap-java/uap-core` which contains the child repository.
+
+To build the project, execute
+```
+mvn package
+```
 
 Usage:
 --------
@@ -72,6 +85,7 @@ On Mac OS X, the `gpg.executable` property should be `gpg2`.
 1. click Release  
 1. bump pom.xml version to next snapshot version  
 1. commit and push to GitHub  
+1. update changelog wiki page  
 
 ### Additional Resources for Deploying to Sonatype OSSRH and Maven Central Repository    
 [Deploying to Sonatype OSSRH using Maven](http://central.sonatype.org/pages/apache-maven.html)  
@@ -79,6 +93,9 @@ On Mac OS X, the `gpg.executable` property should be `gpg2`.
 
 Sonatype OSSRH is synced with Maven Central Repository so the artifacts will appear in Maven Central Repo
 automatically shortly after releasing.  
+
+### Changelog
+Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki#changelog).
 
 Author:
 -------

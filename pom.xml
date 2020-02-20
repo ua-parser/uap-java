@@ -71,7 +71,6 @@
         </includes>
       </testResource>
     </testResources>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -86,6 +85,20 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.ua-parser</groupId>
+      <artifactId>uap-core</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.ua-parser</groupId>
+      <artifactId>uap-core</artifactId>
+      <version>${project.version}</version>
+      <classifier>tests</classifier>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>

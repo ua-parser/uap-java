@@ -36,10 +36,21 @@ public class Parser {
   private OSParser osParser;
   private DeviceParser deviceParser;
 
+  /**
+   * Creates a parser using the regular expression yaml file bundled in the jar.
+   * @throws IOException if there's a problem reading the file from the classpath
+   */
   public Parser() throws IOException {
-    this(Parser.class.getResourceAsStream(REGEX_YAML_PATH));
+    try (InputStream is = Parser.class.getResourceAsStream(REGEX_YAML_PATH)) {
+      initialize(is);
+    }
   }
 
+  /**
+   * Creates a parser using the supplied regular expression yaml file.
+   * It is the responsibility of the caller to close the InputStream after construction.
+   * @param regexYaml the yaml file containing the regular expressions
+   */
   public Parser(InputStream regexYaml) {
     initialize(regexYaml);
   }
@@ -65,6 +76,7 @@ public class Parser {
 
   private void initialize(InputStream regexYaml) {
     Yaml yaml = new Yaml(new SafeConstructor());
+    
     @SuppressWarnings("unchecked")
     Map<String,List<Map<String,String>>> regexConfig = (Map<String,List<Map<String,String>>>) yaml.load(regexYaml);
 

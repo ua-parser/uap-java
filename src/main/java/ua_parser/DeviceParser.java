@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +30,8 @@ import java.util.regex.Pattern;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class DeviceParser {
-  List<DevicePattern> patterns;
+
+  private final List<DevicePattern> patterns;
 
   public DeviceParser(List<DevicePattern> patterns) {
     this.patterns = patterns;
@@ -55,12 +57,15 @@ public class DeviceParser {
     }
   }
 
+  /**
+   * Constructs a thread-safe DeviceParser.
+   */
   public static DeviceParser fromList(List<Map<String,String>> configList) {
     List<DevicePattern> configPatterns = new ArrayList<DevicePattern>();
     for (Map<String,String> configMap : configList) {
       configPatterns.add(DeviceParser.patternFromMap(configMap));
     }
-    return new DeviceParser(configPatterns);
+    return new DeviceParser(new CopyOnWriteArrayList<>(configPatterns));
   }
 
   protected static DevicePattern patternFromMap(Map<String, String> configMap) {

@@ -19,6 +19,7 @@ package ua_parser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,19 +29,23 @@ import java.util.regex.Pattern;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class UserAgentParser {
+
   private final List<UAPattern> patterns;
 
   public UserAgentParser(List<UAPattern> patterns) {
     this.patterns = patterns;
   }
 
+  /**
+   * Constructs a thread-safe UserAgentParser
+   */
   public static UserAgentParser fromList(List<Map<String,String>> configList) {
     List<UAPattern> configPatterns = new ArrayList<UAPattern>();
 
     for (Map<String, String> configMap : configList) {
       configPatterns.add(UserAgentParser.patternFromMap(configMap));
     }
-    return new UserAgentParser(configPatterns);
+    return new UserAgentParser(new CopyOnWriteArrayList<>(configPatterns));
   }
 
   public UserAgent parse(String agentString) {
@@ -103,18 +108,31 @@ public class UserAgentParser {
       if (v1Replacement != null) {
         v1 = v1Replacement;
       } else if (groupCount >= 2) {
-        v1 = matcher.group(2);
+        String group2 = matcher.group(2);
+        if (!isBlank(group2)) {
+          v1 = group2;
+        }
       }
 
       if (v2Replacement != null) {
         v2 = v2Replacement;
       } else if (groupCount >= 3) {
-        v2 = matcher.group(3);
+        String group3 = matcher.group(3);
+        if (!isBlank(group3)) {
+          v2 = group3;
+        }
         if (groupCount >= 4) {
-          v3 = matcher.group(4);
+          String group4 = matcher.group(4);
+          if (!isBlank(group4)) {
+            v3 = group4;
+          }
         }
       }
       return family == null ? null : new UserAgent(family, v1, v2, v3);
+    }
+    
+    private boolean isBlank(String value) {
+      return value == null || value.isEmpty();
     }
   }
 }
