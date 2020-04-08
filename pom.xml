@@ -56,6 +56,33 @@
   </properties>
   
   <build>
+    <resources>
+      <resource>
+        <targetPath>ua_parser</targetPath>
+        <directory>${basedir}/uap-core</directory>
+        <includes>
+          <include>regexes.yaml</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <testResources>
+      <testResource>
+        <targetPath>ua_parser</targetPath>
+        <directory>${basedir}/uap-core/test_resources</directory>
+        <includes>
+          <include>*.yaml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <targetPath>ua_parser</targetPath>
+        <directory>${basedir}/uap-core/tests</directory>
+        <includes>
+          <include>*.yaml</include>
+        </includes>
+      </testResource>
+    </testResources>
+    
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -122,20 +149,6 @@
   </profiles>
   
   <dependencies>
-    <dependency>
-      <groupId>com.github.ua-parser</groupId>
-      <artifactId>uap-core</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.ua-parser</groupId>
-      <artifactId>uap-core</artifactId>
-      <version>${project.version}</version>
-      <classifier>tests</classifier>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
