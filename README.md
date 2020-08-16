@@ -47,7 +47,7 @@ System.out.println(c.device.family);    // => "iPhone"
 ```
 
 ### Changelog
-Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki#changelog).
+Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki/ChangeLog).
 
 Original Author:
 -------
