@@ -41,22 +41,20 @@ public class DeviceParser {
       return null;
     }
 
-    String device = null;
+    String device;
     for (DevicePattern p : patterns) {
       if ((device = p.match(agentString)) != null) {
-        break;
+        return new Device(device);
       }
     }
-    if (device == null) device = "Other";
-
-    return new Device(device);
+    return Device.OTHER;
   }
 
   /**
    * Constructs a thread-safe DeviceParser.
    */
   public static DeviceParser fromList(List<Map<String,String>> configList) {
-    List<DevicePattern> configPatterns = new ArrayList<DevicePattern>();
+    List<DevicePattern> configPatterns = new ArrayList<>();
     for (Map<String,String> configMap : configList) {
       configPatterns.add(DeviceParser.patternFromMap(configMap));
     }
@@ -111,7 +109,7 @@ public class DeviceParser {
     
     private List<String> getSubstitutions(String deviceReplacement) {
       Matcher matcher = SUBSTITUTIONS_PATTERN.matcher(deviceReplacement);
-      List<String> substitutions = new ArrayList<String>();
+      List<String> substitutions = new ArrayList<>();
       while (matcher.find()) {
         substitutions.add(matcher.group());
       }

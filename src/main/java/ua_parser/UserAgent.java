@@ -24,6 +24,9 @@ import java.util.Map;
  * @author Steve Jiang (@sjiang) &lt;gh at iamsteve com&gt;
  */
 public class UserAgent {
+
+  public static final UserAgent OTHER = new UserAgent("Other", null, null, null);
+
   public final String family, major, minor, patch;
 
   public UserAgent(String family, String major, String minor, String patch) {
