@@ -52,6 +52,8 @@ public class DeviceParser {
 
   /**
    * Constructs a thread-safe DeviceParser.
+   * @param configList configure a device parser from a list of regexp hashmaps
+   * @return a device parser
    */
   public static DeviceParser fromList(List<Map<String,String>> configList) {
     List<DevicePattern> configPatterns = new ArrayList<>();

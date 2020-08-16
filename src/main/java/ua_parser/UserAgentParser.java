@@ -38,6 +38,8 @@ public class UserAgentParser {
 
   /**
    * Constructs a thread-safe UserAgentParser
+   * @param configList configure a user-agent parser from a list of regexp hashmaps
+   * @return user-agent parser
    */
   public static UserAgentParser fromList(List<Map<String,String>> configList) {
     List<UAPattern> configPatterns = new ArrayList<>();

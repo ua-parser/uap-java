@@ -38,6 +38,8 @@ public class OSParser {
 
   /**
    * Constructs a thread-safe OSParser.
+   * @param configList configure an operating system parser from a list of regexp hashmaps
+   * @return operating system parser
    */
   public static OSParser fromList(List<Map<String,String>> configList) {
     List<OSPattern> configPatterns = new ArrayList<>();
