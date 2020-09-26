@@ -4,6 +4,22 @@ ua_parser Java Library
 This is the Java implementation of [ua-parser](https://github.com/ua-parser).
 The implementation uses the shared regex patterns and overrides from [regexes.yaml](https://github.com/ua-parser/uap-core/blob/master/regexes.yaml).
 
+Import Dependency:
+------
+Maven
+```
+<dependency>
+  <groupId>com.github.ua-parser</groupId>
+  <artifactId>uap-java</artifactId>
+  <version>1.5.0</version>
+</dependency>
+```
+
+SBT
+```
+"com.github.ua-parser" % "uap-java" % "1.5.0"
+```
+
 Build:
 ------
 
