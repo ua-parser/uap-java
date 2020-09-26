@@ -1,6 +1,5 @@
 package ua_parser;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -31,7 +30,7 @@ public class CachingParser extends Parser {
 
   // ------------------------------------------
 
-  public CachingParser() throws IOException {
+  public CachingParser() {
     super();
   }
 

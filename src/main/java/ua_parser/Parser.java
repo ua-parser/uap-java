@@ -40,9 +40,11 @@ public class Parser {
    * Creates a parser using the regular expression yaml file bundled in the jar.
    * @throws IOException if there's a problem reading the file from the classpath
    */
-  public Parser() throws IOException {
+  public Parser() {
     try (InputStream is = Parser.class.getResourceAsStream(REGEX_YAML_PATH)) {
       initialize(is);
+    } catch (IOException e) {
+      throw new RuntimeException("failed to initialize parser from regexes.yaml bundled in jar", e);
     }
   }
 

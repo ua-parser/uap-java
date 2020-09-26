@@ -39,7 +39,7 @@ public class ParserTest {
   Parser parser;
 
   @Before
-  public void initParser() throws Exception {
+  public void initParser() {
     parser = new Parser();
   }
 

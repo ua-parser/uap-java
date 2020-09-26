@@ -17,7 +17,7 @@ import org.junit.Test;
 public class CachingParserTest extends ParserTest {
 
   @Before
-  public void initParser() throws Exception {
+  public void initParser() {
     parser = new CachingParser();
   }
 
