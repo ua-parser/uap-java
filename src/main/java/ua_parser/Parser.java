@@ -38,7 +38,7 @@ public class Parser {
 
   /**
    * Creates a parser using the regular expression yaml file bundled in the jar.
-   * @throws IOException if there's a problem reading the file from the classpath
+   * @throws RuntimeException if there's a problem reading the file from the classpath
    */
   public Parser() {
     try (InputStream is = Parser.class.getResourceAsStream(REGEX_YAML_PATH)) {
