@@ -46,7 +46,7 @@ public class UserAgent {
   }
 
   public static UserAgent fromMap(Map<String, String> m) {
-    return new UserAgent(m.get("family"), m.get("major"), m.get("minor"), m.get("patch"));
+    return new UserAgent(m.get("family"), m.get("major"), m.get("minor"), m.get("patch"), m.get("patch_minor"));
   }
 
   @Override
