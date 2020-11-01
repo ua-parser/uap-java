@@ -88,7 +88,7 @@ public class UserAgentParser {
     }
 
     public UserAgent match(String agentString) {
-      String family = null, v1 = null, v2 = null, v3 = null;
+      String family = null, v1 = null, v2 = null, v3 = null, v4 = null;
       Matcher matcher = pattern.matcher(agentString);
 
       if (!matcher.find()) {
@@ -129,8 +129,14 @@ public class UserAgentParser {
             v3 = group4;
           }
         }
+        if (groupCount >= 5) {
+          String group5 = matcher.group(5);
+          if (!isBlank(group5)) {
+            v4 = group5;
+          }
+        }
       }
-      return family == null ? null : new UserAgent(family, v1, v2, v3);
+      return family == null ? null : new UserAgent(family, v1, v2, v3, v4);
     }
     
     private boolean isBlank(String value) {
