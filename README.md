@@ -11,13 +11,13 @@ Maven
 <dependency>
   <groupId>com.github.ua-parser</groupId>
   <artifactId>uap-java</artifactId>
-  <version>1.5.0</version>
+  <version>1.5.1</version>
 </dependency>
 ```
 
 SBT
 ```
-"com.github.ua-parser" % "uap-java" % "1.5.0"
+"com.github.ua-parser" % "uap-java" % "1.5.1"
 ```
 
 Build:
