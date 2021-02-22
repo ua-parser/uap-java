@@ -30,12 +30,20 @@ public class CachingParser extends Parser {
 
   // ------------------------------------------
 
-  public CachingParser() {
-    super();
+  protected CachingParser(String yamlPath) {
+    super(yamlPath);
   }
 
   public CachingParser(InputStream regexYaml) {
     super(regexYaml);
+  }
+
+  public static CachingParser newCachingParser() {
+    return new CachingParser(Parser.REGEX_YAML_PATH);
+  }
+
+  public static CachingParser newLegacyCachingParser() {
+    return new CachingParser(Parser.LEGACY_REGEX_YAML_PATH);
   }
 
   // ------------------------------------------

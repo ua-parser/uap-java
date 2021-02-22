@@ -18,7 +18,7 @@ public class CachingParserTest extends ParserTest {
 
   @Before
   public void initParser() {
-    parser = new CachingParser();
+    parser = CachingParser.newCachingParser();
   }
 
   @Override

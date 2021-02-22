@@ -47,8 +47,15 @@
   <build>
     <resources>
       <resource>
-        <targetPath>ua_parser</targetPath>
+        <targetPath>ua_parser/current</targetPath>
         <directory>${basedir}/uap-core</directory>
+        <includes>
+          <include>regexes.yaml</include>
+        </includes>
+      </resource>
+      <resource>
+        <targetPath>ua_parser/legacy</targetPath>
+        <directory>${basedir}/uap-core-legacy</directory>
         <includes>
           <include>regexes.yaml</include>
         </includes>
@@ -57,15 +64,29 @@
 
     <testResources>
       <testResource>
-        <targetPath>ua_parser</targetPath>
+        <targetPath>ua_parser/current</targetPath>
         <directory>${basedir}/uap-core/test_resources</directory>
         <includes>
           <include>*.yaml</include>
         </includes>
       </testResource>
       <testResource>
-        <targetPath>ua_parser</targetPath>
+        <targetPath>ua_parser/current</targetPath>
         <directory>${basedir}/uap-core/tests</directory>
+        <includes>
+          <include>*.yaml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <targetPath>ua_parser/legacy</targetPath>
+        <directory>${basedir}/uap-core-legacy/test_resources</directory>
+        <includes>
+          <include>*.yaml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <targetPath>ua_parser/legacy</targetPath>
+        <directory>${basedir}/uap-core-legacy/tests</directory>
         <includes>
           <include>*.yaml</include>
         </includes>

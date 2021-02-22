@@ -40,7 +40,7 @@ public class ParserTest {
 
   @Before
   public void initParser() {
-    parser = new Parser();
+    parser = Parser.newParser();
   }
 
   @Test

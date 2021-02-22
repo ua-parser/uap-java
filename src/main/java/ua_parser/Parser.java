@@ -31,7 +31,8 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  */
 public class Parser {
 
-  private static final String REGEX_YAML_PATH = "/ua_parser/regexes.yaml";
+  protected static final String REGEX_YAML_PATH = "/ua_parser/current/regexes.yaml";
+  protected static final String LEGACY_REGEX_YAML_PATH = "/ua_parser/legacy/regexes.yaml";
   private UserAgentParser uaParser;
   private OSParser osParser;
   private DeviceParser deviceParser;
@@ -40,8 +41,8 @@ public class Parser {
    * Creates a parser using the regular expression yaml file bundled in the jar.
    * @throws RuntimeException if there's a problem reading the file from the classpath
    */
-  public Parser() {
-    try (InputStream is = Parser.class.getResourceAsStream(REGEX_YAML_PATH)) {
+  protected Parser(String yamlPath) {
+    try (InputStream is = Parser.class.getResourceAsStream(yamlPath)) {
       initialize(is);
     } catch (IOException e) {
       throw new RuntimeException("failed to initialize parser from regexes.yaml bundled in jar", e);
@@ -55,6 +56,14 @@ public class Parser {
    */
   public Parser(InputStream regexYaml) {
     initialize(regexYaml);
+  }
+
+  public static Parser newParser() {
+    return new Parser(REGEX_YAML_PATH);
+  }
+
+  public static Parser newLegacyParser() {
+    return new Parser(LEGACY_REGEX_YAML_PATH);
   }
 
   public Client parse(String agentString) {
