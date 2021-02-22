@@ -6,6 +6,9 @@ import java.io.InputStream;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 /**
  * These tests really only redo the same tests as in ParserTest but with a
  * different Parser subclass Also the same tests will be run several times on
@@ -14,7 +17,12 @@ import org.junit.Test;
  * @author niels
  *
  */
-public class CachingParserTest extends ParserTest {
+public class CachingParserTest extends CurrentParserTest {
+
+  @Override
+  public String resourcePath() {
+    return "/ua_parser/current/";
+  }
 
   @Before
   public void initParser() {
@@ -72,9 +80,9 @@ public class CachingParserTest extends ParserTest {
 
   @Test
   public void testCachedParseAll() {
-    super.testParseAll();
-    super.testParseAll();
-    super.testParseAll();
+    testParseAll();
+    testParseAll();
+    testParseAll();
   }
 
   @Test
