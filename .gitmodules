@@ -1,3 +1,6 @@
 [submodule "uap-core"]
 	path = uap-core
 	url = https://github.com/ua-parser/uap-core.git
+[submodule "uap-core-legacy"]
+	path = uap-core-legacy
+	url = ./uap-core-legacy/
