@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class Device {
 
-  public static final Device OTHER = new Device("Other");
+  public static final Device OTHER = new Device("Other", null, null);
 
   public final String family;
   public final String brand;

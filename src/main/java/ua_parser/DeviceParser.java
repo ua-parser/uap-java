@@ -50,7 +50,7 @@ public class DeviceParser {
     }
 
     if (replacements == null) {
-      return new Device("Other", null, null);
+      return Device.OTHER;
     }
     else {
       return new Device(replacements.get("device_replacement"), replacements.get("brand_replacement"), replacements.get("model_replacement"));

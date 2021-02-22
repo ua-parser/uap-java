@@ -69,10 +69,6 @@ System.out.println(c.os.minor);         // => "1"
 System.out.println(c.device.family);    // => "iPhone"
 ```
 
-### Instructions for Build/Deploy/Releas
-
-
-Author:
 ### Changelog
 Changelog can be found [here](https://github.com/ua-parser/uap-java/wiki/ChangeLog).
 

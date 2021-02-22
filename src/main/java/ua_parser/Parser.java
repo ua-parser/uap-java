@@ -80,7 +80,7 @@ public class Parser {
     Yaml yaml = new Yaml(new SafeConstructor());
     
     @SuppressWarnings("unchecked")
-    Map<String,List<Map<String,String>>> regexConfig = (Map<String,List<Map<String,String>>>) yaml.load(regexYaml);
+    Map<String,List<Map<String,String>>> regexConfig =  yaml.load(regexYaml);
 
     List<Map<String,String>> uaParserConfigs = regexConfig.get("user_agent_parsers");
     if (uaParserConfigs == null) {
