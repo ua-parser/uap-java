@@ -29,6 +29,16 @@ public class CachingParserTest extends ParserTest {
   }
 
   @Test
+  public void testCachingParserCorrectSizeInit() throws Exception {
+      parser = new CachingParser(10);
+  }
+
+  @Test (expected = java.lang.AssertionError.class)
+  public void testCachingParserIncorrectSizeInit() throws Exception{
+      parser = new CachingParser(0);
+  }
+
+  @Test
   public void testCachedParseUserAgent() {
     super.testParseUserAgent();
     super.testParseUserAgent();
