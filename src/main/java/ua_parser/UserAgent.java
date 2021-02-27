@@ -27,17 +27,26 @@ public class UserAgent {
 
   public static final UserAgent OTHER = new UserAgent("Other", null, null, null);
 
-  public final String family, major, minor, patch;
+  public final String family, major, minor, patch, patchMinor;
+
+  public UserAgent(String family, String major, String minor, String patch, String patchMinor) {
+    this.family = family;
+    this.major = major;
+    this.minor = minor;
+    this.patch = patch;
+    this.patchMinor = patchMinor;
+  }
 
   public UserAgent(String family, String major, String minor, String patch) {
     this.family = family;
     this.major = major;
     this.minor = minor;
     this.patch = patch;
+    this.patchMinor = null;
   }
 
   public static UserAgent fromMap(Map<String, String> m) {
-    return new UserAgent(m.get("family"), m.get("major"), m.get("minor"), m.get("patch"));
+    return new UserAgent(m.get("family"), m.get("major"), m.get("minor"), m.get("patch"), m.get("patch_minor"));
   }
 
   @Override
@@ -63,11 +72,12 @@ public class UserAgent {
 
   @Override
   public String toString() {
-    return String.format("{\"family\": %s, \"major\": %s, \"minor\": %s, \"patch\": %s}",
+    return String.format("{\"family\": %s, \"major\": %s, \"minor\": %s, \"patch\": %s, \"patch_minor\": %s}",
                          family == null ? Constants.EMPTY_STRING : '"' + family + '"',
                          major == null ? Constants.EMPTY_STRING : '"' + major + '"',
                          minor == null ? Constants.EMPTY_STRING : '"' + minor + '"',
-                         patch == null ? Constants.EMPTY_STRING : '"' + patch + '"');
+                         patch == null ? Constants.EMPTY_STRING : '"' + patch + '"',
+                         patchMinor == null ? Constants.EMPTY_STRING : '"' + patchMinor + '"');
   }
 
 }
