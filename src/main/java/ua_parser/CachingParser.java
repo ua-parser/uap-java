@@ -42,7 +42,7 @@ public class CachingParser extends Parser {
     super(regexYaml);
   }
 
-  public CachingParser(int cacheSize) throws IOException {
+  public CachingParser(int cacheSize) {
     super();
     assert cacheSize > 0: INVALID_CACHE_SIZE_ERROR_MESSAGE;
     this.cacheSize = cacheSize;
