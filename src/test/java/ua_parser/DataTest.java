@@ -18,11 +18,11 @@ package ua_parser;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Random;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,8 +87,8 @@ public abstract class DataTest<T> {
       long seed = nextSeed();
       T first = getRandomInstance(seed, new StringGenerator(seed, false));
       T second = getRandomInstance(seed, new StringGenerator(seed, false));
-      assertThat(first, is(second));
-      assertThat(first.hashCode(), is(second.hashCode()));
+      MatcherAssert.assertThat(first, is(second));
+      MatcherAssert.assertThat(first.hashCode(), is(second.hashCode()));
     }
   }
 
@@ -98,14 +98,14 @@ public abstract class DataTest<T> {
       StringGenerator uniqueGenerator = new StringGenerator(nextSeed(), true);
       T first = getRandomInstance(nextSeed(), uniqueGenerator);
       T second = getRandomInstance(nextSeed(), uniqueGenerator);
-      assertThat(first, is(not(second)));
+      MatcherAssert.assertThat(first, is(not(second)));
     }
   }
 
   @Test
   public void testBlankInstances() {
     T first = getBlankInstance(), second = getBlankInstance();
-    assertThat(first, is(second));
-    assertThat(first.hashCode(), is(second.hashCode()));
+    MatcherAssert.assertThat(first, is(second));
+    MatcherAssert.assertThat(first.hashCode(), is(second.hashCode()));
   }
 }

@@ -17,13 +17,13 @@
 package ua_parser;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
@@ -86,8 +86,8 @@ public class ParserTest {
                                   new OS("iOS", "5", "1", "1", null),
                                   new Device("iPhone"));
 
-    assertThat(parser.parse(agentString1), is(expected1));
-    assertThat(parser.parse(agentString2), is(expected2));
+    MatcherAssert.assertThat(parser.parse(agentString1), is(expected1));
+    MatcherAssert.assertThat(parser.parse(agentString2), is(expected2));
   }
 
   @Test
@@ -104,9 +104,9 @@ public class ParserTest {
 
     Parser testParser = parserFromStringConfig(testConfig);
     Client result = testParser.parse("ABC12\\34 (CashPhone-$9.0.1 CatOS OH-HAI=/^.^\\=)");
-    assertThat(result.userAgent.family, is("ABC (12\\34)"));
-    assertThat(result.os.family, is("CatOS 9000"));
-    assertThat(result.device.family, is("CashPhone $9"));
+    MatcherAssert.assertThat(result.userAgent.family, is("ABC (12\\34)"));
+    MatcherAssert.assertThat(result.os.family, is("CatOS 9000"));
+    MatcherAssert.assertThat(result.device.family, is("CashPhone $9"));
   }
 
   @Test (expected=IllegalArgumentException.class)
@@ -126,7 +126,7 @@ public class ParserTest {
       if (testCase.containsKey("js_ua")) continue;
 
       String uaString = testCase.get("user_agent_string");
-      assertThat(uaString, parser.parseUserAgent(uaString), is(UserAgent.fromMap(testCase)));
+      MatcherAssert.assertThat(uaString, parser.parseUserAgent(uaString), is(UserAgent.fromMap(testCase)));
     }
   }
 
@@ -142,7 +142,7 @@ public class ParserTest {
       if (testCase.containsKey("js_ua")) continue;
 
       String uaString = testCase.get("user_agent_string");
-      assertThat(uaString, parser.parseOS(uaString), is(OS.fromMap(testCase)));
+      MatcherAssert.assertThat(uaString, parser.parseOS(uaString), is(OS.fromMap(testCase)));
     }
   }
 
@@ -156,7 +156,7 @@ public class ParserTest {
     for(Map<String, String> testCase : testCases) {
 
       String uaString = testCase.get("user_agent_string");
-      assertThat(uaString, parser.parseDevice(uaString), is(Device.fromMap(testCase)));
+      MatcherAssert.assertThat(uaString, parser.parseDevice(uaString), is(Device.fromMap(testCase)));
     }
   }
 
