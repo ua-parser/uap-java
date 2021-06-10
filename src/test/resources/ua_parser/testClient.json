@@ -1,0 +1,18 @@
+{
+  "userAgent": {
+    "family": "Firefox",
+    "major": "3",
+    "minor": "5",
+    "patch": "5"
+  },
+  "os": {
+    "family": "Mac OS X",
+    "major": "10",
+    "minor": "4",
+    "patch": null,
+    "patchMinor": null
+  },
+  "device": {
+    "family": "Other"
+  }
+}
