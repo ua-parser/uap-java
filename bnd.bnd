@@ -1,0 +1,2 @@
+# export all versioned packages except for conditional ones
+-exportcontents: ${removeall;${packages;VERSIONED};${packages;CONDITIONAL}}
