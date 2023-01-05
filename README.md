@@ -15,6 +15,11 @@ Maven
 </dependency>
 ```
 
+Gradle(Kotlin)
+```
+implementation("com.github.ua-parser:uap-java:1.5.3")
+```
+
 SBT
 ```
 "com.github.ua-parser" % "uap-java" % "1.5.3"

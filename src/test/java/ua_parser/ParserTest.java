@@ -26,6 +26,7 @@ import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -35,7 +36,7 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class ParserTest {
   final String TEST_RESOURCE_PATH = "/ua_parser/";
-  Yaml yaml = new Yaml();
+  Yaml yaml = new Yaml(Parser.getDefaultLoaderOptions());;
   Parser parser;
 
   @Before
