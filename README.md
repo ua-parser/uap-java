@@ -7,7 +7,7 @@ The implementation uses the shared regex patterns and overrides from [regexes.ya
 Import Dependency:
 ------
 Maven
-```
+```xml
 <dependency>
   <groupId>com.github.ua-parser</groupId>
   <artifactId>uap-java</artifactId>
@@ -15,13 +15,13 @@ Maven
 </dependency>
 ```
 
-Gradle(Kotlin)
-```
+Gradle (Kotlin)
+```gradle
 implementation("com.github.ua-parser:uap-java:1.5.4")
 ```
 
 SBT
-```
+```sbt
 "com.github.ua-parser" % "uap-java" % "1.5.4"
 ```
 
