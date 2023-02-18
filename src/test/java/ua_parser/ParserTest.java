@@ -35,7 +35,7 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class ParserTest {
   final String TEST_RESOURCE_PATH = "/ua_parser/";
-  Yaml yaml = new Yaml();
+  Yaml yaml = new Yaml(Parser.getDefaultLoaderOptions());;
   Parser parser;
 
   @Before
