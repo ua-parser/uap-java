@@ -99,9 +99,9 @@ public class Parser {
   }
 
   public static LoaderOptions getDefaultLoaderOptions(){
-    LoaderOptions loaderOptions = new LoaderOptions();
-    loaderOptions.setCodePointLimit(CODE_POINT_LIMIT);
-    return loaderOptions;
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(CODE_POINT_LIMIT);
+    return options;
   }
 
   private void initialize(InputStream regexYaml, LoaderOptions loaderOptions) {
