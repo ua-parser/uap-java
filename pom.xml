@@ -7,7 +7,7 @@
   <groupId>com.github.ua-parser</groupId>
   <artifactId>uap-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.5.4-SNAPSHOT</version>
+  <version>1.5.4</version>
   <name>User Agent Parser for Java</name>
   
   <description>
