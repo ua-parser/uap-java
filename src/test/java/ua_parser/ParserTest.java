@@ -26,7 +26,6 @@ import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
 /**
