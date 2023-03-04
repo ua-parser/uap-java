@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
@@ -32,6 +33,8 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
 public class Parser {
 
   private static final String REGEX_YAML_PATH = "/ua_parser/regexes.yaml";
+
+  public static final int CODE_POINT_LIMIT = 3455764;
   private UserAgentParser uaParser;
   private OSParser osParser;
   private DeviceParser deviceParser;
@@ -41,8 +44,18 @@ public class Parser {
    * @throws RuntimeException if there's a problem reading the file from the classpath
    */
   public Parser() {
+    this(getDefaultLoaderOptions());
+  }
+
+  /**
+   * Creates a parser using the regular expression yaml file bundled in the jar.
+   *
+   * @param loaderOptions configuration for loading parser safe limits.
+   * @throws RuntimeException if there's a problem reading the file from the classpath.
+   */
+  public Parser(LoaderOptions loaderOptions) {
     try (InputStream is = Parser.class.getResourceAsStream(REGEX_YAML_PATH)) {
-      initialize(is);
+      initialize(is, loaderOptions);
     } catch (IOException e) {
       throw new RuntimeException("failed to initialize parser from regexes.yaml bundled in jar", e);
     }
@@ -54,7 +67,16 @@ public class Parser {
    * @param regexYaml the yaml file containing the regular expressions
    */
   public Parser(InputStream regexYaml) {
-    initialize(regexYaml);
+    this(regexYaml, getDefaultLoaderOptions());
+  }
+  /**
+   * Creates a parser using the supplied regular expression yaml file.
+   * It is the responsibility of the caller to close the InputStream after construction.
+   * @param regexYaml the yaml file containing the regular expressions
+   * @param loaderOptions configuration for loading parser safe limits.
+   */
+  public Parser(InputStream regexYaml, LoaderOptions loaderOptions) {
+    initialize(regexYaml, loaderOptions);
   }
 
   public Client parse(String agentString) {
@@ -76,9 +98,15 @@ public class Parser {
     return osParser.parse(agentString);
   }
 
-  private void initialize(InputStream regexYaml) {
-    Yaml yaml = new Yaml(new SafeConstructor());
-    
+  public static LoaderOptions getDefaultLoaderOptions(){
+    LoaderOptions options = new LoaderOptions();
+    options.setCodePointLimit(CODE_POINT_LIMIT);
+    return options;
+  }
+
+  private void initialize(InputStream regexYaml, LoaderOptions loaderOptions) {
+    Yaml yaml = new Yaml(new SafeConstructor(loaderOptions));
+
     @SuppressWarnings("unchecked")
     Map<String,List<Map<String,String>>> regexConfig = (Map<String,List<Map<String,String>>>) yaml.load(regexYaml);
 
