@@ -3,7 +3,7 @@ package ua_parser;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.commons.collections4.map.LRUMap;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
 /**
  * When doing webanalytics (with for example PIG) the main pattern is to process
@@ -63,7 +63,7 @@ public class CachingParser extends Parser {
       return null;
     }
     if (cacheClient == null) {
-      cacheClient = new LRUMap<>(cacheSize);
+      cacheClient = Caffeine.newBuilder().maximumSize(cacheSize).<String, Client>build().asMap();
     }
     Client client = cacheClient.get(agentString);
     if (client != null) {
@@ -82,7 +82,7 @@ public class CachingParser extends Parser {
       return null;
     }
     if (cacheUserAgent == null) {
-      cacheUserAgent = new LRUMap<>(cacheSize);
+      cacheUserAgent = Caffeine.newBuilder().maximumSize(cacheSize).<String, UserAgent>build().asMap();
     }
     UserAgent userAgent = cacheUserAgent.get(agentString);
     if (userAgent != null) {
@@ -101,7 +101,7 @@ public class CachingParser extends Parser {
       return null;
     }
     if (cacheDevice == null) {
-      cacheDevice = new LRUMap<>(cacheSize);
+      cacheDevice = Caffeine.newBuilder().maximumSize(cacheSize).<String, Device>build().asMap();
     }
     Device device = cacheDevice.get(agentString);
     if (device != null) {
@@ -121,7 +121,7 @@ public class CachingParser extends Parser {
     }
 
     if (cacheOS == null) {
-      cacheOS = new LRUMap<>(cacheSize);
+      cacheOS = Caffeine.newBuilder().maximumSize(cacheSize).<String, OS>build().asMap();
     }
     OS os = cacheOS.get(agentString);
     if (os != null) {
