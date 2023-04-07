@@ -18,8 +18,6 @@ package ua_parser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,8 +30,8 @@ public class DeviceParser {
 
   private final List<DevicePattern> patterns;
 
-  public DeviceParser(List<DevicePattern> patterns) {
-    this.patterns = patterns;
+  public DeviceParser() {
+    this.patterns = Regexes.getDevicePatterns();
   }
 
   public Device parse(String agentString) {
@@ -48,29 +46,6 @@ public class DeviceParser {
       }
     }
     return Device.OTHER;
-  }
-
-  /**
-   * Constructs a thread-safe DeviceParser.
-   * @param configList configure a device parser from a list of regexp hashmaps
-   * @return a device parser
-   */
-  public static DeviceParser fromList(List<Map<String,String>> configList) {
-    List<DevicePattern> configPatterns = new ArrayList<>();
-    for (Map<String,String> configMap : configList) {
-      configPatterns.add(DeviceParser.patternFromMap(configMap));
-    }
-    return new DeviceParser(new CopyOnWriteArrayList<>(configPatterns));
-  }
-
-  protected static DevicePattern patternFromMap(Map<String, String> configMap) {
-    String regex = configMap.get("regex");
-    if (regex == null) {
-      throw new IllegalArgumentException("Device is missing regex");
-    }    
-    Pattern pattern = "i".equals(configMap.get("regex_flag")) // no ohter flags used (by now) 
-    		? Pattern.compile(regex, Pattern.CASE_INSENSITIVE) : Pattern.compile(regex);
-    return new DevicePattern(pattern, configMap.get("device_replacement"));
   }
 
   protected static class DevicePattern {

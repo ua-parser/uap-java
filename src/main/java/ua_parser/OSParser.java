@@ -16,10 +16,7 @@
 
 package ua_parser;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,22 +29,8 @@ public class OSParser {
 
   private final List<OSPattern> patterns;
 
-  public OSParser(List<OSPattern> patterns) {
-    this.patterns = patterns;
-  }
-
-  /**
-   * Constructs a thread-safe OSParser.
-   * @param configList configure an operating system parser from a list of regexp hashmaps
-   * @return operating system parser
-   */
-  public static OSParser fromList(List<Map<String,String>> configList) {
-    List<OSPattern> configPatterns = new ArrayList<>();
-
-    for (Map<String,String> configMap : configList) {
-      configPatterns.add(OSParser.patternFromMap(configMap));
-    }
-    return new OSParser(new CopyOnWriteArrayList<>(configPatterns));
+  public OSParser() {
+    this.patterns = Regexes.getOSPatterns();
   }
 
   public OS parse(String agentString) {
@@ -62,19 +45,6 @@ public class OSParser {
       }
     }
     return OS.OTHER;
-  }
-
-  protected static OSPattern patternFromMap(Map<String, String> configMap) {
-    String regex = configMap.get("regex");
-    if (regex == null) {
-      throw new IllegalArgumentException("OS is missing regex");
-    }
-
-    return(new OSPattern(Pattern.compile(regex),
-                         configMap.get("os_replacement"),
-                         configMap.get("os_v1_replacement"),
-                         configMap.get("os_v2_replacement"),
-                         configMap.get("os_v3_replacement")));
   }
 
   protected static class OSPattern {

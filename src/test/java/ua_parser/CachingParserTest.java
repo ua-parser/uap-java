@@ -21,13 +21,6 @@ public class CachingParserTest extends ParserTest {
     parser = new CachingParser();
   }
 
-  @Override
-  Parser parserFromStringConfig(String configYamlAsString) throws Exception {
-    InputStream yamlInput = new ByteArrayInputStream(
-        configYamlAsString.getBytes("UTF8"));
-    return new CachingParser(yamlInput);
-  }
-
   @Test
   public void testCachingParserCorrectSizeInit() throws Exception {
       parser = new CachingParser(10);
@@ -85,13 +78,6 @@ public class CachingParserTest extends ParserTest {
     super.testParseAll();
     super.testParseAll();
     super.testParseAll();
-  }
-
-  @Test
-  public void testCachedReplacementQuoting() throws Exception {
-    super.testReplacementQuoting();
-    super.testReplacementQuoting();
-    super.testReplacementQuoting();
   }
 
 }
