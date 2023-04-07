@@ -16,10 +16,7 @@
 
 package ua_parser;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,22 +29,8 @@ public class UserAgentParser {
 
   private final List<UAPattern> patterns;
 
-  public UserAgentParser(List<UAPattern> patterns) {
-    this.patterns = patterns;
-  }
-
-  /**
-   * Constructs a thread-safe UserAgentParser
-   * @param configList configure a user-agent parser from a list of regexp hashmaps
-   * @return user-agent parser
-   */
-  public static UserAgentParser fromList(List<Map<String,String>> configList) {
-    List<UAPattern> configPatterns = new ArrayList<>();
-
-    for (Map<String, String> configMap : configList) {
-      configPatterns.add(UserAgentParser.patternFromMap(configMap));
-    }
-    return new UserAgentParser(new CopyOnWriteArrayList<>(configPatterns));
+  public UserAgentParser() {
+    this.patterns = Regexes.getUserAgentPatterns();
   }
 
   public UserAgent parse(String agentString) {
@@ -62,18 +45,6 @@ public class UserAgentParser {
       }
     }
     return UserAgent.OTHER;
-  }
-
-  protected static UAPattern patternFromMap(Map<String, String> configMap) {
-    String regex = configMap.get("regex");
-    if (regex == null) {
-      throw new IllegalArgumentException("User agent is missing regex");
-    }
-
-    return(new UAPattern(Pattern.compile(regex),
-                         configMap.get("family_replacement"),
-                         configMap.get("v1_replacement"),
-                         configMap.get("v2_replacement")));
   }
 
   protected static class UAPattern {

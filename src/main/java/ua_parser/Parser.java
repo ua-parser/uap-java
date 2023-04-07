@@ -16,15 +16,6 @@
 
 package ua_parser;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
-
 /**
  * Java implementation of <a href="https://github.com/ua-parser">UA Parser</a>
  *
@@ -32,51 +23,15 @@ import org.yaml.snakeyaml.constructor.SafeConstructor;
  */
 public class Parser {
 
-  private static final String REGEX_YAML_PATH = "/ua_parser/regexes.yaml";
-
-  public static final int CODE_POINT_LIMIT = 3455764;
   private UserAgentParser uaParser;
   private OSParser osParser;
   private DeviceParser deviceParser;
 
   /**
-   * Creates a parser using the regular expression yaml file bundled in the jar.
-   * @throws RuntimeException if there's a problem reading the file from the classpath
+   * Creates a parser
    */
   public Parser() {
-    this(getDefaultLoaderOptions());
-  }
-
-  /**
-   * Creates a parser using the regular expression yaml file bundled in the jar.
-   *
-   * @param loaderOptions configuration for loading parser safe limits.
-   * @throws RuntimeException if there's a problem reading the file from the classpath.
-   */
-  public Parser(LoaderOptions loaderOptions) {
-    try (InputStream is = Parser.class.getResourceAsStream(REGEX_YAML_PATH)) {
-      initialize(is, loaderOptions);
-    } catch (IOException e) {
-      throw new RuntimeException("failed to initialize parser from regexes.yaml bundled in jar", e);
-    }
-  }
-
-  /**
-   * Creates a parser using the supplied regular expression yaml file.
-   * It is the responsibility of the caller to close the InputStream after construction.
-   * @param regexYaml the yaml file containing the regular expressions
-   */
-  public Parser(InputStream regexYaml) {
-    this(regexYaml, getDefaultLoaderOptions());
-  }
-  /**
-   * Creates a parser using the supplied regular expression yaml file.
-   * It is the responsibility of the caller to close the InputStream after construction.
-   * @param regexYaml the yaml file containing the regular expressions
-   * @param loaderOptions configuration for loading parser safe limits.
-   */
-  public Parser(InputStream regexYaml, LoaderOptions loaderOptions) {
-    initialize(regexYaml, loaderOptions);
+    initialize();
   }
 
   public Client parse(String agentString) {
@@ -98,34 +53,9 @@ public class Parser {
     return osParser.parse(agentString);
   }
 
-  public static LoaderOptions getDefaultLoaderOptions(){
-    LoaderOptions options = new LoaderOptions();
-    options.setCodePointLimit(CODE_POINT_LIMIT);
-    return options;
-  }
-
-  private void initialize(InputStream regexYaml, LoaderOptions loaderOptions) {
-    Yaml yaml = new Yaml(new SafeConstructor(loaderOptions));
-
-    @SuppressWarnings("unchecked")
-    Map<String,List<Map<String,String>>> regexConfig = (Map<String,List<Map<String,String>>>) yaml.load(regexYaml);
-
-    List<Map<String,String>> uaParserConfigs = regexConfig.get("user_agent_parsers");
-    if (uaParserConfigs == null) {
-      throw new IllegalArgumentException("user_agent_parsers is missing from yaml");
-    }
-    uaParser = UserAgentParser.fromList(uaParserConfigs);
-
-    List<Map<String,String>> osParserConfigs = regexConfig.get("os_parsers");
-    if (osParserConfigs == null) {
-      throw new IllegalArgumentException("os_parsers is missing from yaml");
-    }
-    osParser = OSParser.fromList(osParserConfigs);
-
-    List<Map<String,String>> deviceParserConfigs = regexConfig.get("device_parsers");
-    if (deviceParserConfigs == null) {
-      throw new IllegalArgumentException("device_parsers is missing from yaml");
-    }
-    deviceParser = DeviceParser.fromList(deviceParserConfigs);
+  private void initialize() {
+    uaParser = new UserAgentParser();
+    osParser = new OSParser();
+    deviceParser = new DeviceParser();
   }
 }

@@ -1,6 +1,5 @@
 package ua_parser;
 
-import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.commons.collections4.map.LRUMap;
@@ -38,22 +37,11 @@ public class CachingParser extends Parser {
     super();
   }
 
-  public CachingParser(InputStream regexYaml) {
-    super(regexYaml);
-  }
-
   public CachingParser(int cacheSize) {
     super();
     assert cacheSize > 0: INVALID_CACHE_SIZE_ERROR_MESSAGE;
     this.cacheSize = cacheSize;
   }
-
-  public CachingParser(InputStream regexYaml, int cacheSize) {
-    super(regexYaml);
-    assert cacheSize > 0: INVALID_CACHE_SIZE_ERROR_MESSAGE;
-    this.cacheSize = cacheSize;
-  }
-
 
   // ------------------------------------------
 
