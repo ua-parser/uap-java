@@ -81,10 +81,10 @@ public class ParserTest {
 
     Client expected1 = new Client(new UserAgent("Firefox", "3", "5", "5"),
                                   new OS("Mac OS X", "10", "4", null, null),
-                                  new Device("Mac"));
+                                  new Device("Mac", null, null));
     Client expected2 = new Client(new UserAgent("Mobile Safari", "5", "1", null),
                                   new OS("iOS", "5", "1", "1", null),
-                                  new Device("iPhone"));
+                                  new Device("iPhone", null, null));
 
     MatcherAssert.assertThat(parser.parse(agentString1), is(expected1));
     MatcherAssert.assertThat(parser.parse(agentString2), is(expected2));
