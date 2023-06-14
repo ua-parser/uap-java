@@ -49,7 +49,7 @@ public class DeviceParser {
       }
     }
 
-    return new Device("Other", null, null);
+    return Device.OTHER;
   }
 
   /**
