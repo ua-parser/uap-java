@@ -1,0 +1,14 @@
+name: Release Drafter
+on:
+  push:
+    branches:
+      - master
+      
+permissions:
+  security-events: read
+  contents: write
+  actions: read      
+      
+jobs:
+   update_release_draft:
+      uses: jetty-project/.github/.github/workflows/release-drafter.yml@master
