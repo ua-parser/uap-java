@@ -4,10 +4,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.ua-parser</groupId>
+  <groupId>io.github.olamy.ua-parser</groupId>
   <artifactId>uap-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.5.5-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   <name>User Agent Parser for Java</name>
   
   <description>
@@ -32,27 +32,35 @@
     </developer>
   </developers>
   
-  <url>https://github.com/ua-parser/uap-java</url>
+  <url>https://github.com/olamy/uap-java</url>
   
   <scm>
-    <connection>scm:git:git://github.com/ua-parser/uap-java.git</connection>
-    <developerConnection>scm:git:ssh://github.com:ua-parser/uap-java.git</developerConnection>
-    <url>http://github.com/ua-parser/uap-java/tree/master</url>
+    <connection>scm:git:git://github.com/olamy/uap-java.git</connection>
+    <developerConnection>scm:git:ssh://github.com:olamy/uap-java.git</developerConnection>
+    <url>http://github.com/olamy/uap-java/tree/master</url>
   </scm>
-  
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
       <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
+    <site>
+      <id>${site.deploy.id}</id>
+      <name>Deployment through GitHub's site deployment plugin</name>
+      <url>${site.deploy.url}</url>
+    </site>
   </distributionManagement>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <site.deploy.url>scm:git:https://github.com/olamy/uap-java.git</site.deploy.url>
+    <site.deploy.id>github-site</site.deploy.id>
+    <site.url>https://olamy.github.io/uap-java/</site.url>
   </properties>
   
   <build>
@@ -155,7 +163,7 @@
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-      <version>1.33</version>
+      <version>2.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
