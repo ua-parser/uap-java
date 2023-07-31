@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: uap-java-$NEXT_PATCH_VERSION
