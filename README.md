@@ -11,18 +11,18 @@ Maven
 <dependency>
   <groupId>com.github.ua-parser</groupId>
   <artifactId>uap-java</artifactId>
-  <version>1.5.4</version>
+  <version>1.6.0</version>
 </dependency>
 ```
 
 Gradle (Kotlin)
 ```gradle
-implementation("com.github.ua-parser:uap-java:1.5.4")
+implementation("com.github.ua-parser:uap-java:1.6.0")
 ```
 
 SBT
 ```sbt
-"com.github.ua-parser" % "uap-java" % "1.5.4"
+"com.github.ua-parser" % "uap-java" % "1.6.0"
 ```
 
 Build:
