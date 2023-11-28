@@ -59,6 +59,9 @@
   <build>
     <resources>
       <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
         <targetPath>ua_parser</targetPath>
         <directory>${basedir}/uap-core</directory>
         <includes>
@@ -68,6 +71,9 @@
     </resources>
     
     <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
       <testResource>
         <targetPath>ua_parser</targetPath>
         <directory>${basedir}/uap-core/test_resources</directory>
@@ -164,6 +170,12 @@
       <version>4.4</version>
     </dependency>
     <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.8.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
@@ -173,6 +185,18 @@
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.skyscreamer</groupId>
+      <artifactId>jsonassert</artifactId>
+      <version>1.5.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
