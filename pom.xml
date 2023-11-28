@@ -53,6 +53,7 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>11</java.version>
   </properties>
   
   <build>
@@ -89,8 +90,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
     </plugins>
@@ -120,7 +121,7 @@
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>3.6.2</version>
             <configuration>
-              <source>1.8</source>
+              <source>${java.version}</source>
             </configuration>
             <executions>
               <execution>
